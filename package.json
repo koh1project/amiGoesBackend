@@ -1,14 +1,16 @@
 {
   "name": "amiGoesBackend",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "./dist/index.js",
   "repository": "https://github.com/koh1project/amiGoesBackend.git",
   "author": "Jatin Parmar <jatinparmar96@users.noreply.github.com>",
   "license": "MIT",
   "scripts": {
     "dev": "ts-node-dev --respawn ./src/server.ts",
     "build": "npx tsc",
-    "start": "node dist/server.js"
+    "start": "node dist/server.js",
+    "check-ts": "node_modules/.bin/tsc --noEmit",
+    "check-eslint": "eslint --ext .tsx --ext .ts src/"
   },
   "dependencies": {
     "dotenv": "^16.0.2",
@@ -20,6 +22,17 @@
     "@types/express": "^4.17.14",
     "@types/mongoose": "^5.11.97",
     "@types/node": "^18.7.23",
-    "typescript": "^4.8.4"
+    "@types/prettier": "^2.7.1",
+    "@typescript-eslint/eslint-plugin": "^5.38.1",
+    "@typescript-eslint/parser": "^5.38.1",
+    "eslint": "^8.0.1",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-config-standard-with-typescript": "^23.0.0",
+    "eslint-plugin-import": "^2.25.2",
+    "eslint-plugin-n": "^15.0.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "eslint-plugin-promise": "^6.0.1",
+    "prettier": "^2.7.1",
+    "typescript": "*"
   }
 }
