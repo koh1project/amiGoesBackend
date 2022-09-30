@@ -1,5 +1,7 @@
 import dotenv from 'dotenv';
 import express, { Express, Request, Response } from 'express';
+import mongoose from 'mongoose';
+
 dotenv.config();
 
 const app: Express = express();
@@ -11,3 +13,7 @@ app.get('/', (req: Request, res: Response) => {
 app.listen(port, () => {
   console.log(`[server]: Server is running at https://localhost:${port}`);
 });
+
+const uri = process.env.DATABASE_URI;
+
+mongoose.connect(uri, (error) => console.log(error));
