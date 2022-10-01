@@ -1,11 +1,9 @@
 import { Request, Response } from 'express';
 import * as admin from 'firebase-admin';
 
-const firebaseAccount = require('../../service-account.json');
-
 // initialize firebase admin
 admin.initializeApp({
-  credential: admin.credential.cert(firebaseAccount),
+  credential: admin.credential.cert('./service-account.json'),
 });
 
 // signup function
@@ -19,7 +17,7 @@ const signup = async (req: Request, res: Response) => {
       email: user.email,
       password: user.password,
     });
-    res.status(201).json({ message: 'User created successfully', user });
+    res.status(201).json({ message: 'User created successfully' });
   } catch (error) {
     res.status(500).json({ message: 'Something went wrong' });
     console.log(error);
@@ -27,3 +25,4 @@ const signup = async (req: Request, res: Response) => {
 };
 
 export { signup };
+
