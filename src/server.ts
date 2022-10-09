@@ -1,3 +1,4 @@
+import cors from 'cors';
 import dotenv from 'dotenv';
 import express, { Express, Request, Response } from 'express';
 import mongoose from 'mongoose';
@@ -10,6 +11,7 @@ const port = process.env.PORT;
 
 app.use(express.json());
 app.use(router);
+app.use(cors());
 
 app.get('/', (req: Request, res: Response) => {
   res.send('Hello Typescript Server');

@@ -13,6 +13,8 @@
     "check-eslint": "eslint --ext .tsx --ext .ts src/"
   },
   "dependencies": {
+    "@firebase/auth": "^0.20.8",
+    "cors": "^2.8.5",
     "dotenv": "^16.0.2",
     "express": "^4.18.1",
     "firebase-admin": "^11.0.1",
