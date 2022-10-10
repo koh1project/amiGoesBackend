@@ -9,9 +9,9 @@ dotenv.config();
 const app: Express = express();
 const port = process.env.PORT;
 
+app.use(cors());
 app.use(express.json());
 app.use(router);
-app.use(cors());
 
 app.get('/', (req: Request, res: Response) => {
   res.send('Hello Typescript Server');
