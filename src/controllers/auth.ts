@@ -25,4 +25,3 @@ const signup = async (req: Request, res: Response) => {
 };
 
 export { signup };
-

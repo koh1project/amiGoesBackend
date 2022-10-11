@@ -10,7 +10,9 @@
     "build": "npx tsc",
     "start": "node dist/server.js",
     "check-ts": "node_modules/.bin/tsc --noEmit",
-    "check-eslint": "eslint --ext .tsx --ext .ts src/"
+    "check-eslint": "eslint --ext .tsx --ext .ts src/",
+    "lint:fix": "eslint --fix --ext .tsx --ext .ts src/",
+    "prepare": "husky install"
   },
   "dependencies": {
     "dotenv": "^16.0.2",
@@ -34,6 +36,7 @@
     "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-promise": "^6.0.1",
     "prettier": "^2.7.1",
-    "typescript": "*"
+    "typescript": "*",
+    "husky": "^8.0.0"
   }
 }
