@@ -7,6 +7,5 @@ declare global {
     }
   }
 }
-
 export {};
 
