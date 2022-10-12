@@ -19,4 +19,3 @@ router.get('/s3', async (req, res) => {
 });
 
 export { router };
-

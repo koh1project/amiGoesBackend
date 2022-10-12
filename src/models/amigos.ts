@@ -1,95 +1,91 @@
-var mongoose = require('mongoose');
-var Schema = mongoose.Schema;
+import { model, Schema } from 'mongoose';
 
-var Amigos = new Schema({
+const Amigos = new Schema({
   name: {
-    type: String
+    type: String,
   },
   homeCountry: {
-    type: String
+    type: String,
   },
-  languages: ,
+  languages: [String],
   gender: {
     type: String,
-    male
-    female
-    other
+    enum: ['male', 'female', 'other'],
   },
   birthday: {
-    type: Date
+    type: Date,
   },
   bio: {
-    type: String
+    type: String,
   },
   profilePicture: {
-    type: String
+    type: String,
   },
   isVerified: {
-    type: Boolean
+    type: Boolean,
   },
-  hobbies: ,
-  favorites: ,
+  hobbies: [String],
+  favorites: [String],
   contact: {
     phoneNumber: {
-      type: String
+      type: String,
     },
     email: {
-      type: String
-    }
+      type: String,
+    },
   },
   emergencyContact: {
     name: {
-      type: String
+      type: String,
     },
     phoneNumber: {
-      type: String
+      type: String,
     },
     relationship: {
-      type: String
-    }
+      type: String,
+    },
   },
   credentials: {
     email: {
-      type: String
+      type: String,
     },
     password: {
-      type: String
-    }
+      type: String,
+    },
   },
   connectPreferences: {
     isInvisible: {
-      type: Boolean
+      type: Boolean,
     },
     currentLocation: {},
     gender: {
-      type: String
+      type: String,
     },
     minAge: {
-      type: Number
+      type: Number,
     },
     maxAge: {
-      type: Number
+      type: Number,
     },
     fromDate: {
-      type: Date
+      type: Date,
     },
     toDate: {
-      type: Date
+      type: Date,
     },
-    activities:
+    activities: [String],
   },
   notificationsOn: {
-    type: Boolean
+    type: Boolean,
   },
   createdAt: {
-    type: Date
+    type: Date,
   },
   updatedAt: {
-    type: Date
-  }
+    type: Date,
+  },
 });
 
 Amigos.set('timestamps', true);
 
-module.exports = mongoose.model('Amigos', Amigos);
-
+export default model('Amigos', Amigos);

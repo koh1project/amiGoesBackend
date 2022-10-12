@@ -1,22 +1,21 @@
-var mongoose = require('mongoose');
-var Schema = mongoose.Schema;
+import { model, Schema } from 'mongoose';
 
-var Blocked = new Schema({
+const Blocked = new Schema({
   userID: {
     type: Schema.Types.ObjectId,
     required: true,
-    ref: 'Amigos'
+    ref: 'Amigos',
   },
   blockedUserID: {
     type: Schema.Types.ObjectId,
     required: true,
-    ref: 'Amigos'
+    ref: 'Amigos',
   },
   createdAt: {
-    type: Date
-  }
+    type: Date,
+  },
 });
 
 Blocked.set('timestamps', true);
 
-module.exports = mongoose.model('Blocked', Blocked);
+export default model('Blocked', Blocked);

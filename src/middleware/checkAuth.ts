@@ -16,4 +16,3 @@ const checkAuth = async (req, res, next) => {
 };
 
 export { checkAuth };
-

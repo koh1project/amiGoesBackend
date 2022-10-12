@@ -1,22 +1,21 @@
-var mongoose = require('mongoose');
-var Schema = mongoose.Schema;
+import { model, Schema } from 'mongoose';
 
-var goNowPair = new Schema({
+const goNowPair = new Schema({
   userID: {
     type: Schema.Types.ObjectId,
     required: true,
-    ref: 'UserProfile'
+    ref: 'UserProfile',
   },
   location: {},
   goTo: {
-    type: String
+    type: String,
   },
-  possiblePairs: ,
+  possiblePairs: [],
   createdAt: {
-    type: Date
-  }
+    type: Date,
+  },
 });
 
 goNowPair.set('timestamps', true);
 
-module.exports = mongoose.model('GoNowPair', goNowPair);
+export default model('GoNowPair', goNowPair);

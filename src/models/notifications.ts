@@ -1,30 +1,29 @@
-var mongoose = require('mongoose');
-var Schema = mongoose.Schema;
+import { model, Schema } from 'mongoose';
 
-var Notifications = new Schema({
+const Notifications = new Schema({
   sender: {
     type: Schema.Types.ObjectId,
     required: true,
-    ref: 'UserProfile'
+    ref: 'UserProfile',
   },
   receiver: {
     type: Schema.Types.ObjectId,
     required: true,
-    ref: 'UserProfile'
+    ref: 'UserProfile',
   },
   notificationType: {
     type: Schema.Types.ObjectId,
     required: true,
-    ref: 'notificationType'
+    ref: 'notificationType',
   },
   isRead: {
-    type: Boolean
+    type: Boolean,
   },
   createdAt: {
-    type: Date
-  }
+    type: Date,
+  },
 });
 
 Notifications.set('timestamps', true);
 
-module.exports = mongoose.model('Notifications', Notifications);
+export default model('Notifications', Notifications);

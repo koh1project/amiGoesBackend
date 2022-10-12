@@ -6,4 +6,3 @@ const homeController = (req: Request, res: Response) => {
 };
 
 export { homeController };
-
