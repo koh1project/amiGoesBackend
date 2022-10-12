@@ -10,11 +10,15 @@
     "build": "npx tsc",
     "start": "node dist/server.js",
     "check-ts": "node_modules/.bin/tsc --noEmit",
-    "check-eslint": "eslint --ext .tsx --ext .ts src/"
+    "check-eslint": "eslint --ext .tsx --ext .ts src/",
+    "lint:fix": "eslint --fix --ext .tsx --ext .ts src/",
+    "prepare": "husky install"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.186.0",
     "@aws-sdk/s3-request-presigner": "^3.186.0",
+    "@firebase/auth": "^0.20.8",
+    "cors": "^2.8.5",
     "dotenv": "^16.0.2",
     "express": "^4.18.1",
     "firebase-admin": "^11.0.1",
@@ -36,6 +40,7 @@
     "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-promise": "^6.0.1",
     "prettier": "^2.7.1",
-    "typescript": "*"
+    "typescript": "*",
+    "husky": "^8.0.0"
   }
 }

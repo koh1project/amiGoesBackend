@@ -1,10 +1,10 @@
 import { Router } from 'express';
 import { getS3ObjectUrl, uploadObject } from '../utils/s3Utils';
-import { authRouter } from './auth';
+import { homeRouter } from './homeRoute';
 
 const router = Router();
 
-router.use('/auth', authRouter);
+router.use('/home', homeRouter);
 
 // Upload s3 api
 router.post('/s3', async (req, res) => {
@@ -19,3 +19,4 @@ router.get('/s3', async (req, res) => {
 });
 
 export { router };
+
