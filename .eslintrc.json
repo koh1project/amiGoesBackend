@@ -21,7 +21,6 @@
         "usePrettierrc": true
       }
     ],
-    "linebreak-style": ["error", "unix"],
     "quotes": ["error", "single"],
 
     "prefer-const": [
@@ -31,8 +30,6 @@
         "ignoreReadBeforeAssign": false
       }
     ],
-    "no-unneeded-ternary": "error",
-    "promise/prefer-await-to-then": "error",
-    "promise/prefer-await-to-callbacks": "warn"
+    "no-unneeded-ternary": "warn"
   }
 }
