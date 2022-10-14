@@ -1,30 +1,29 @@
-var mongoose = require('mongoose');
-var Schema = mongoose.Schema;
-var Connections = new Schema({
+import { model, Schema } from 'mongoose';
+const Connections = new Schema({
   userID1: {
     type: Schema.Types.ObjectId,
     required: true,
-    ref: 'UserProfile'
+    ref: 'UserProfile',
   },
   userID2: {
     type: Schema.Types.ObjectId,
     required: true,
-    ref: 'UserProfile'
+    ref: 'UserProfile',
   },
   isConnected: {
-    type: Boolean
+    type: Boolean,
   },
   isPending: {
-    type: Boolean
+    type: Boolean,
   },
   createdAt: {
-    type: Date
+    type: Date,
   },
   updatedAt: {
-    type: Date
-  }
+    type: Date,
+  },
 });
 
 Connections.set('timestamps', true);
 
-module.exports = mongoose.model('Connections', Connections);
+export default model('Connections', Connections);

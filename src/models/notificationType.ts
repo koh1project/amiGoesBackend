@@ -1,37 +1,29 @@
-var mongoose = require('mongoose');
-var Schema = mongoose.Schema;
-
-var notificationType = new Schema({
+import { model, Schema } from 'mongoose';
+const notificationType = new Schema({
   acceptedRequest: {
     message: {
-      type: String
+      type: String,
     },
-    options:
   },
   connectionRequest: {
     message: {
-      type: String
+      type: String,
     },
-    options:
   },
   goNowRequest: {
     message: {
-      type: String
+      type: String,
     },
-    options:
   },
   favoriteSuggestion: {
     message: {
-      type: String
+      type: String,
     },
-    options:
   },
   acceptedGoNowRequest: {
     message: {
-      type: String
+      type: String,
     },
-    options:
-  }
+  },
 });
-
-module.exports = mongoose.model('NotificationType', notificationType);
+export default model('NotificationType', notificationType);
