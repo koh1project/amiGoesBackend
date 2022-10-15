@@ -1,4 +1,4 @@
-import { model, Schema } from 'mongoose';
+import { InferSchemaType, model, Schema } from 'mongoose';
 
 const Blocked = new Schema({
   userID: {
@@ -14,7 +14,12 @@ const Blocked = new Schema({
   createdAt: {
     type: Date,
   },
+  updatedAt: {
+    type: Date,
+  },
 });
+
+type Blocked = InferSchemaType<typeof Blocked>;
 
 Blocked.set('timestamps', true);
 

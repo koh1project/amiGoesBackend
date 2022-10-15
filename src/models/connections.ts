@@ -1,14 +1,15 @@
-import { model, Schema } from 'mongoose';
+import { InferSchemaType, model, Schema } from 'mongoose';
+
 const Connections = new Schema({
   userID1: {
     type: Schema.Types.ObjectId,
     required: true,
-    ref: 'UserProfile',
+    ref: 'Amigos',
   },
   userID2: {
     type: Schema.Types.ObjectId,
     required: true,
-    ref: 'UserProfile',
+    ref: 'Amigos',
   },
   isConnected: {
     type: Boolean,
@@ -23,6 +24,8 @@ const Connections = new Schema({
     type: Date,
   },
 });
+
+type Connections = InferSchemaType<typeof Connections>;
 
 Connections.set('timestamps', true);
 
