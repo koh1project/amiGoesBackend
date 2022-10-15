@@ -3,17 +3,21 @@ import { InferSchemaType, model, Schema } from 'mongoose';
 const Amigos = new Schema({
   name: {
     type: String,
+    required: true,
   },
   homeCountry: {
     type: String,
+    required: true,
   },
   languages: [String],
   gender: {
     type: String,
     enum: ['male', 'female', 'other'],
+    required: true,
   },
   birthday: {
     type: Date,
+    required: true,
   },
   bio: {
     type: String,
@@ -23,12 +27,13 @@ const Amigos = new Schema({
   },
   isVerified: {
     type: Boolean,
+    required: true,
   },
   hobbies: [String],
   favorites: [String],
   contact: {
     phoneNumber: {
-      type: Number,
+      type: String,
     },
     email: {
       type: String,
@@ -87,8 +92,8 @@ const Amigos = new Schema({
   },
 });
 
-type Amigos = InferSchemaType<typeof Amigos>;
+export type TAmigos = InferSchemaType<typeof Amigos>;
 
 Amigos.set('timestamps', true);
 
-export default model('Amigos', Amigos);
+export default model<TAmigos>('Amigos', Amigos);
