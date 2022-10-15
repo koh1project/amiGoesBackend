@@ -1,5 +1,4 @@
 import { Router } from 'express';
-import { seedUser } from '../utils/mockData';
 import { getS3ObjectUrl, uploadObject } from '../utils/s3Utils';
 import { blockRouter } from './blockedRoute';
 import { homeRouter } from './homeRoute';
@@ -21,11 +20,5 @@ router.get('/s3', async (req, res) => {
   res.send(url);
 });
 // Only allow seed if mode is Development
-if (process.env.MODE === 'Development') {
-  router.get('/seed', (req, res) => {
-    const users = seedUser();
-    res.json(users);
-  });
-}
 
 export { router };

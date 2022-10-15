@@ -1,10 +1,7 @@
 import { InferSchemaType, model, Schema } from 'mongoose';
+import { MongooseID } from '../types/types';
 
 const AmigosSchema = new Schema({
-  _id: {
-    type: Schema.Types.ObjectId,
-    required: true,
-  },
   name: {
     type: String,
     required: true,
@@ -33,8 +30,12 @@ const AmigosSchema = new Schema({
     type: Boolean,
     required: true,
   },
-  hobbies: [String],
-  favorites: [String],
+  hobbies: {
+    type: [String],
+  },
+  favorites: {
+    type: [String],
+  },
   contact: {
     phoneNumber: {
       type: String,
@@ -96,7 +97,7 @@ const AmigosSchema = new Schema({
   },
 });
 
-export type TAmigos = InferSchemaType<typeof AmigosSchema>;
+export type TAmigos = MongooseID & InferSchemaType<typeof AmigosSchema>;
 
 AmigosSchema.set('timestamps', true);
 

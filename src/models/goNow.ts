@@ -1,4 +1,5 @@
 import { InferSchemaType, model, Schema } from 'mongoose';
+import { MongooseID } from '../types/types';
 
 const GoNowPairSchema = new Schema({
   userID: {
@@ -19,7 +20,7 @@ const GoNowPairSchema = new Schema({
   },
 });
 
-export type TGoNowPair = InferSchemaType<typeof GoNowPairSchema>;
+export type TGoNowPair = MongooseID & InferSchemaType<typeof GoNowPairSchema>;
 
 GoNowPairSchema.set('timestamps', true);
 

@@ -1,4 +1,5 @@
 import { InferSchemaType, model, Schema } from 'mongoose';
+import { MongooseID } from '../types/types';
 
 const NotificationTypeSchema = new Schema({
   acceptedRequest: {
@@ -43,7 +44,8 @@ const NotificationTypeSchema = new Schema({
   },
 });
 
-export type TNotificationType = InferSchemaType<typeof NotificationTypeSchema>;
+export type TNotificationType = MongooseID &
+  InferSchemaType<typeof NotificationTypeSchema>;
 const NotificationTypeModel = model<TNotificationType>(
   'NotificationType',
   NotificationTypeSchema,

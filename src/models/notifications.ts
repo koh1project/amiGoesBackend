@@ -1,4 +1,5 @@
 import { InferSchemaType, model, Schema } from 'mongoose';
+import { MongooseID } from '../types/types';
 
 const NotificationSchema = new Schema({
   sender: {
@@ -27,7 +28,8 @@ const NotificationSchema = new Schema({
   },
 });
 
-export type TNotification = InferSchemaType<typeof NotificationSchema>;
+export type TNotification = MongooseID &
+  InferSchemaType<typeof NotificationSchema>;
 
 NotificationSchema.set('timestamps', true);
 

@@ -1,4 +1,5 @@
 import { InferSchemaType, model, Schema } from 'mongoose';
+import { MongooseID } from '../types/types';
 
 const ConnectionsSchema = new Schema({
   _id: {
@@ -31,7 +32,8 @@ const ConnectionsSchema = new Schema({
   },
 });
 
-export type TConnections = InferSchemaType<typeof ConnectionsSchema>;
+export type TConnections = MongooseID &
+  InferSchemaType<typeof ConnectionsSchema>;
 ConnectionsSchema.set('timestamps', true);
 
 const ConnectionsModel = model<TConnections>('Connections', ConnectionsSchema);

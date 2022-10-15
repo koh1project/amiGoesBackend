@@ -3,6 +3,7 @@ import dotenv from 'dotenv';
 import express, { Express, Request, Response } from 'express';
 import mongoose from 'mongoose';
 import { router } from './routes/index';
+import { seed } from './utils/mockData';
 
 dotenv.config();
 
@@ -16,6 +17,13 @@ app.use(router);
 app.get('/', (req: Request, res: Response) => {
   res.send('Hello Typescript Server');
 });
+
+if (process.env.MODE === 'Development') {
+  router.get('/seed', async (req, res) => {
+    const users = await seed();
+    res.json(users);
+  });
+}
 
 app.listen(port, () => {
   console.log(`[server]: 🚀Server is running at https://localhost:${port}`);
