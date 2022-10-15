@@ -1,6 +1,6 @@
 import { InferSchemaType, model, Schema } from 'mongoose';
 
-const goNowPair = new Schema({
+const GoNowPairSchema = new Schema({
   userID: {
     type: Schema.Types.ObjectId,
     required: true,
@@ -19,8 +19,9 @@ const goNowPair = new Schema({
   },
 });
 
-type goNowPair = InferSchemaType<typeof goNowPair>;
+export type TGoNowPair = InferSchemaType<typeof GoNowPairSchema>;
 
-goNowPair.set('timestamps', true);
+GoNowPairSchema.set('timestamps', true);
 
-export default model('GoNowPair', goNowPair);
+const GoNowPairModel = model<TGoNowPair>('GoNowPair', GoNowPairSchema);
+export default GoNowPairModel;

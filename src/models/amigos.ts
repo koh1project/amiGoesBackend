@@ -1,6 +1,10 @@
 import { InferSchemaType, model, Schema } from 'mongoose';
 
-const Amigos = new Schema({
+const AmigosSchema = new Schema({
+  _id: {
+    type: Schema.Types.ObjectId,
+    required: true,
+  },
   name: {
     type: String,
     required: true,
@@ -92,8 +96,9 @@ const Amigos = new Schema({
   },
 });
 
-export type TAmigos = InferSchemaType<typeof Amigos>;
+export type TAmigos = InferSchemaType<typeof AmigosSchema>;
 
-Amigos.set('timestamps', true);
+AmigosSchema.set('timestamps', true);
 
-export default model<TAmigos>('Amigos', Amigos);
+const AmigosModel = model<TAmigos>('Amigos', AmigosSchema);
+export default AmigosModel;

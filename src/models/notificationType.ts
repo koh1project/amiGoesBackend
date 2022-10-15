@@ -1,6 +1,6 @@
 import { InferSchemaType, model, Schema } from 'mongoose';
 
-const notificationType = new Schema({
+const NotificationTypeSchema = new Schema({
   acceptedRequest: {
     message: {
       type: String,
@@ -43,6 +43,10 @@ const notificationType = new Schema({
   },
 });
 
-type notificationType = InferSchemaType<typeof notificationType>;
+export type TNotificationType = InferSchemaType<typeof NotificationTypeSchema>;
+const NotificationTypeModel = model<TNotificationType>(
+  'NotificationType',
+  NotificationTypeSchema,
+);
 
-export default model('NotificationType', notificationType);
+export default NotificationTypeModel;

@@ -1,6 +1,6 @@
 import { InferSchemaType, model, Schema } from 'mongoose';
 
-const Notifications = new Schema({
+const NotificationSchema = new Schema({
   sender: {
     type: Schema.Types.ObjectId,
     required: true,
@@ -27,8 +27,12 @@ const Notifications = new Schema({
   },
 });
 
-type Notifications = InferSchemaType<typeof Notifications>;
+export type TNotification = InferSchemaType<typeof NotificationSchema>;
 
-Notifications.set('timestamps', true);
+NotificationSchema.set('timestamps', true);
 
-export default model('Notifications', Notifications);
+const NotificationModel = model<TNotification>(
+  'Notifications',
+  NotificationSchema,
+);
+export default NotificationModel;
