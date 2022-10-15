@@ -1,4 +1,4 @@
-import { model, Schema } from 'mongoose';
+import { InferSchemaType, model, Schema } from 'mongoose';
 
 const Amigos = new Schema({
   name: {
@@ -28,7 +28,7 @@ const Amigos = new Schema({
   favorites: [String],
   contact: {
     phoneNumber: {
-      type: String,
+      type: Number,
     },
     email: {
       type: String,
@@ -39,7 +39,7 @@ const Amigos = new Schema({
       type: String,
     },
     phoneNumber: {
-      type: String,
+      type: Number,
     },
     relationship: {
       type: String,
@@ -60,6 +60,7 @@ const Amigos = new Schema({
     currentLocation: {},
     gender: {
       type: String,
+      enum: ['male', 'female', 'other'],
     },
     minAge: {
       type: Number,
@@ -85,6 +86,8 @@ const Amigos = new Schema({
     type: Date,
   },
 });
+
+type Amigos = InferSchemaType<typeof Amigos>;
 
 Amigos.set('timestamps', true);
 

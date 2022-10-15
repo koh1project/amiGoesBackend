@@ -1,4 +1,4 @@
-import { model, Schema } from 'mongoose';
+import { InferSchemaType, model, Schema } from 'mongoose';
 
 const goNowPair = new Schema({
   userID: {
@@ -14,7 +14,12 @@ const goNowPair = new Schema({
   createdAt: {
     type: Date,
   },
+  updatedAt: {
+    type: Date,
+  },
 });
+
+type goNowPair = InferSchemaType<typeof goNowPair>;
 
 goNowPair.set('timestamps', true);
 
