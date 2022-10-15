@@ -1,10 +1,12 @@
 import { Router } from 'express';
 import { getS3ObjectUrl, uploadObject } from '../utils/s3Utils';
+import { blockRouter } from './blockedRoute';
 import { homeRouter } from './homeRoute';
 
 const router = Router();
 
 router.use('/home', homeRouter);
+router.use('/blocked', blockRouter);
 
 // Upload s3 api
 router.post('/s3', async (req, res) => {
