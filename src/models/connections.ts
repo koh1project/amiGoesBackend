@@ -1,6 +1,11 @@
 import { InferSchemaType, model, Schema } from 'mongoose';
+import { MongooseID } from '../types/types';
 
-const Connections = new Schema({
+const ConnectionsSchema = new Schema({
+  _id: {
+    type: Schema.Types.ObjectId,
+    required: true,
+  },
   userID1: {
     type: Schema.Types.ObjectId,
     required: true,
@@ -13,9 +18,11 @@ const Connections = new Schema({
   },
   isConnected: {
     type: Boolean,
+    required: true,
   },
   isPending: {
     type: Boolean,
+    required: true,
   },
   createdAt: {
     type: Date,
@@ -25,8 +32,9 @@ const Connections = new Schema({
   },
 });
 
-type Connections = InferSchemaType<typeof Connections>;
+export type TConnections = MongooseID &
+  InferSchemaType<typeof ConnectionsSchema>;
+ConnectionsSchema.set('timestamps', true);
 
-Connections.set('timestamps', true);
-
-export default model('Connections', Connections);
+const ConnectionsModel = model<TConnections>('Connections', ConnectionsSchema);
+export default ConnectionsModel;
