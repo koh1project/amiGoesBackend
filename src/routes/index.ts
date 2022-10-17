@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import { compareFaces } from '../utils/rekognition';
+import { recognizeText } from '../utils/rekognitionUtils';
 import { getS3ObjectUrl, uploadObject } from '../utils/s3Utils';
 import { amigosRouter } from './amigosRoute';
 import { blockRouter } from './blockedRoute';
@@ -30,6 +31,13 @@ router.get('/s3', async (req, res) => {
 
 router.get('/compareFaces', async (req, res) => {
   const data = await compareFaces();
+  res.send(data);
+});
+
+// Recognize text from image
+router.post('/recognize', async (req, res) => {
+  const image = 'test.JPG';
+  const data = await recognizeText(req.body.image);
   res.send(data);
 });
 

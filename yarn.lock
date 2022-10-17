@@ -936,15 +936,6 @@
     "@aws-sdk/types" "3.186.0"
     tslib "^2.3.1"
 
-"@aws-sdk/util-waiter@3.190.0":
-  version "3.190.0"
-  resolved "https://registry.yarnpkg.com/@aws-sdk/util-waiter/-/util-waiter-3.190.0.tgz#01348830fbd6a9a1a8e1fb22e87a29185d8e69fc"
-  integrity sha512-wlc56EElap8ua+9VCSqXaC4QsJQecYmC0C6A5EfFDtFlFyyd+vjpiLMU34juzrqJfVCx6aAUD2c9f+ezvk1G5Q==
-  dependencies:
-    "@aws-sdk/abort-controller" "3.190.0"
-    "@aws-sdk/types" "3.190.0"
-    tslib "^2.3.1"
-
 "@aws-sdk/xml-builder@3.186.0":
   version "3.186.0"
   resolved "https://registry.npmjs.org/@aws-sdk/xml-builder/-/xml-builder-3.186.0.tgz"
