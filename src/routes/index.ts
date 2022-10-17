@@ -4,6 +4,7 @@ import { getS3ObjectUrl, uploadObject } from '../utils/s3Utils';
 import { amigosRouter } from './amigosRoute';
 import { blockRouter } from './blockedRoute';
 import { connectRouter } from './connectRoute';
+import { discoverRouter } from './discoverRoute';
 import { homeRouter } from './homeRoute';
 
 const router = Router();
@@ -12,6 +13,7 @@ router.use('/home', homeRouter);
 router.use('/blocked', blockRouter);
 router.use('/amigos', amigosRouter);
 router.use('/connect', connectRouter);
+router.use('/discover', discoverRouter);
 
 // Upload s3 api
 router.post('/s3', async (req, res) => {
@@ -32,4 +34,3 @@ router.get('/compareFaces', async (req, res) => {
 });
 
 export { router };
-
