@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import { getS3ObjectUrl, uploadObject } from '../utils/s3Utils';
+import { amigosRouter } from './amigosRoute';
 import { blockRouter } from './blockedRoute';
 import { homeRouter } from './homeRoute';
 
@@ -7,6 +8,7 @@ const router = Router();
 
 router.use('/home', homeRouter);
 router.use('/blocked', blockRouter);
+router.use('/amigos', amigosRouter);
 
 // Upload s3 api
 router.post('/s3', async (req, res) => {
@@ -22,3 +24,4 @@ router.get('/s3', async (req, res) => {
 // Only allow seed if mode is Development
 
 export { router };
+
