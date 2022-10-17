@@ -2,6 +2,9 @@ import { InferSchemaType, model, Schema } from 'mongoose';
 import { MongooseID } from '../types/types';
 
 const AmigosSchema = new Schema({
+  firebaseId: {
+    type: String,
+  },
   name: {
     type: String,
     required: true,

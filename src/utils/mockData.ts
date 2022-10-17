@@ -23,6 +23,7 @@ export const seedUser = async () => {
 
     const user: TAmigos = {
       _id: id,
+      firebaseId: faker.random.word(),
       name: faker.name.firstName(),
       birthday: faker.date.past(1, new Date('1995/06/16')),
       bio: faker.lorem.paragraph(),
