@@ -26,3 +26,4 @@ const getBlockedUsers = async (req, res) => {
 };
 
 export { blockUser, getBlockedUsers };
+
