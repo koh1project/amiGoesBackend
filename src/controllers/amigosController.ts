@@ -4,7 +4,7 @@ const createProfile = async (req, res) => {
   try {
     console.log(req.body);
     const {
-      firebaseId,
+      _id,
       name,
       homeCountry,
       languages,
@@ -24,7 +24,7 @@ const createProfile = async (req, res) => {
       updatedAt,
     } = req.body;
     const newAmigos = new AmigosModel({
-      firebaseId,
+      _id,
       name,
       homeCountry,
       languages,
@@ -51,3 +51,4 @@ const createProfile = async (req, res) => {
 };
 
 export { createProfile };
+

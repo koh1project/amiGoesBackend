@@ -1,8 +1,7 @@
 import { InferSchemaType, model, Schema } from 'mongoose';
-import { MongooseID } from '../types/types';
 
 const AmigosSchema = new Schema({
-  firebaseId: {
+  _id: {
     type: String,
   },
   name: {
@@ -100,7 +99,7 @@ const AmigosSchema = new Schema({
   },
 });
 
-export type TAmigos = MongooseID & InferSchemaType<typeof AmigosSchema>;
+export type TAmigos = InferSchemaType<typeof AmigosSchema>;
 
 AmigosSchema.set('timestamps', true);
 

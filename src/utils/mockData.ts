@@ -4,6 +4,10 @@ import AmigosModel, { TAmigos } from '../models/amigos';
 import ConnectionsModel, { TConnections } from '../models/connections';
 import { TGenderValues } from '../types/types';
 
+function generateRandomString() {
+  return Math.random().toString(20).substr(2, 20);
+}
+
 export const seed = async () => {
   const users = await seedUser();
   const connections = await seedConnections(users);
@@ -19,11 +23,12 @@ export const removeAllData = async () => {
 export const seedUser = async () => {
   const users: TAmigos[] = [];
   for (let i = 0; i < 10; i++) {
-    const id = new Types.ObjectId();
+    //const id = new Types.ObjectId();
+
+    const id = generateRandomString();
 
     const user: TAmigos = {
       _id: id,
-      firebaseId: faker.random.word(),
       name: faker.name.firstName(),
       birthday: faker.date.past(1, new Date('1995/06/16')),
       bio: faker.lorem.paragraph(),
