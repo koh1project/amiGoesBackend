@@ -36,7 +36,6 @@ router.get('/compareFaces', async (req, res) => {
 
 // Recognize text from image
 router.post('/recognize', async (req, res) => {
-  const image = 'test.JPG';
   const data = await recognizeText(req.body.image);
   res.send(data);
 });
