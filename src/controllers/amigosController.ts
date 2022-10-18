@@ -1,6 +1,7 @@
 import AmigosModel from '../models/amigos';
 
 const createProfile = async (req, res) => {
+  console.log('hello');
   try {
     console.log(req.body);
     const {
