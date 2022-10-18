@@ -58,4 +58,3 @@ router.post('/translateImage', async (req, res) => {
 });
 
 export { router };
-
