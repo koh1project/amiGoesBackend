@@ -24,3 +24,4 @@ export const recognizeText = async (image) => {
     console.log('Error', err);
   }
 };
+/*test*/
