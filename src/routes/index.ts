@@ -39,4 +39,3 @@ router.post('/recognize', async (req, res) => {
 });
 
 export { router };
-
