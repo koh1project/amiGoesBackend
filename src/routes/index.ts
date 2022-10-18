@@ -1,4 +1,5 @@
 import { Router } from 'express';
+import { compareFaces } from '../utils/rekognition';
 import { getS3ObjectUrl, uploadObject } from '../utils/s3Utils';
 import { blockRouter } from './blockedRoute';
 import { homeRouter } from './homeRoute';
@@ -20,5 +21,10 @@ router.get('/s3', async (req, res) => {
   res.send(url);
 });
 // Only allow seed if mode is Development
+
+router.get('/compareFaces', async (req, res) => {
+  const data = await compareFaces();
+  res.send(data);
+});
 
 export { router };
