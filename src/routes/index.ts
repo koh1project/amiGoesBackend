@@ -51,4 +51,3 @@ router.post('/translateImage', async (req, res) => {
   const translatedResult = await translateText(req.body.language, data.TextDetections[0].DetectedText);
 
 export { router };
-
