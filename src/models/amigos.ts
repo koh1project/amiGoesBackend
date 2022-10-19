@@ -57,14 +57,6 @@ const AmigosSchema = new Schema({
       type: String,
     },
   },
-  credentials: {
-    email: {
-      type: String,
-    },
-    password: {
-      type: String,
-    },
-  },
   connectPreferences: {
     isInvisible: {
       type: Boolean,
