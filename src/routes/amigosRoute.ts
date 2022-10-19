@@ -1,8 +1,11 @@
 import { Router } from 'express';
-import { createProfile } from '../controllers/amigosController';
+import { createProfile, getUserProfile } from '../controllers/amigosController';
 
 const router = Router();
 
-router.post('/', createProfile); // authMiddleware will be added later
+// authMiddleware will be added later
+router.get('/:userId', getUserProfile);
+router.post('/create', createProfile);
 
 export { router as amigosRouter };
+

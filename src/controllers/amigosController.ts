@@ -18,7 +18,6 @@ const createProfile = async (req, res) => {
       favorites,
       contact,
       emergencyContact,
-      credentials,
       connectPreferences,
       notificationsOn,
       createdAt,
@@ -38,7 +37,6 @@ const createProfile = async (req, res) => {
       favorites,
       contact,
       emergencyContact,
-      credentials,
       connectPreferences,
       notificationsOn,
       createdAt,
@@ -51,5 +49,15 @@ const createProfile = async (req, res) => {
   }
 };
 
-export { createProfile };
+const getUserProfile = async (req, res) => {
+  try {
+    const profile = await AmigosModel.findById(req.params.userId);
+    console.log(profile);
+    res.status(200).json(profile);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
+export { createProfile, getUserProfile };
 
