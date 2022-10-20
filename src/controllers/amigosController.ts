@@ -110,5 +110,16 @@ const updateProfile = async (req, res) => {
   }
 };
 
-export { createProfile, getUserProfile, updateProfile };
+// delete user profile information from database
+const deleteProfile = async (req, res) => {
+  try {
+    const uid = req.params.userId;
+    await AmigosModel.deleteOne({ _id: uid });
+    res.status(200).json({ message: 'Profile deleted' });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
+export { createProfile, getUserProfile, updateProfile, deleteProfile };
 
