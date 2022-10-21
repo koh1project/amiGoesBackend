@@ -5,7 +5,7 @@ import {
 import { REGION } from '../libs/s3Client';
 
 const photo_source = 'Image.jpg';
-
+const photo_target = 'IMG-3692.jpg';
 const client = new RekognitionClient({ region: REGION });
 
 // // function to encode file data to base64 encoded string
@@ -33,7 +33,7 @@ const params = (image1, image2) => ({
 
 export const compareFaces = async () => {
   // console.log(params);
-  const command = new CompareFacesCommand(params(photo_source, myBuffer));
+  const command = new CompareFacesCommand(params(photo_source, photo_target));
   try {
     const data = await client.send(command);
 
