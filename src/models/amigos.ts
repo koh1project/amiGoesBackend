@@ -1,7 +1,9 @@
 import { InferSchemaType, model, Schema } from 'mongoose';
-import { MongooseID } from '../types/types';
 
 const AmigosSchema = new Schema({
+  _id: {
+    type: String,
+  },
   name: {
     type: String,
     required: true,
@@ -55,14 +57,6 @@ const AmigosSchema = new Schema({
       type: String,
     },
   },
-  credentials: {
-    email: {
-      type: String,
-    },
-    password: {
-      type: String,
-    },
-  },
   connectPreferences: {
     isInvisible: {
       type: Boolean,
@@ -97,7 +91,7 @@ const AmigosSchema = new Schema({
   },
 });
 
-export type TAmigos = MongooseID & InferSchemaType<typeof AmigosSchema>;
+export type TAmigos = InferSchemaType<typeof AmigosSchema>;
 
 AmigosSchema.set('timestamps', true);
 
