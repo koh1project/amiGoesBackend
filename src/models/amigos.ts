@@ -79,6 +79,12 @@ const AmigosSchema = new Schema({
     toDate: {
       type: Date,
     },
+    fromTime: {
+      type: Number,
+    },
+    toTime: {
+      type: Number,
+    },
     activities: [String],
   },
   notificationsOn: {
