@@ -28,18 +28,15 @@ const connectFeed = async (req, res) => {
     const feedResult = await AmigosModel.find({
       _id: { $ne: req.params.userId },
       languages: { $in: currentUserInfo.languages },
-      gender: currentUserInfo.connectPreferences.gender,
+      gender: { $in: currentUserInfo.connectPreferences.gender },
       age: {
         $gte: currentUserInfo.connectPreferences.minAge,
         $lte: currentUserInfo.connectPreferences.maxAge,
       },
       'connectPreferences.isInvisible': false,
-      'connectPreferences.gender': currentUserInfo.gender,
       'connectPreferences.activities': {
         $in: currentUserInfo.connectPreferences.activities,
       },
-      'connectPreferences.minAge': { $lte: currentUserInfo.age },
-      'connectPreferences.maxAge': { $gte: currentUserInfo.age },
       'connectPreferences.fromDate': {
         $lte: currentUserInfo.connectPreferences.toDate,
       },
@@ -53,7 +50,7 @@ const connectFeed = async (req, res) => {
         $gte: currentUserInfo.connectPreferences.fromTime,
       },
     });
-    console.log(feedResult.length);
+    //console.log(feedResult.length);
     const distanceFilter = [];
     for (let i = 0; i < feedResult.length; i++) {
       const latitude1 =
@@ -70,7 +67,7 @@ const connectFeed = async (req, res) => {
         latitude2,
         longitude2,
       );
-      console.log(distanceInKm);
+      //console.log(distanceInKm);
       if (distanceInKm <= currentUserInfo.connectPreferences.locationDistance) {
         distanceFilter.push(feedResult[i]);
       }
@@ -102,3 +99,4 @@ const updateConnectPreferences = async (req, res) => {
 };
 
 export { connectFeed, updateConnectPreferences };
+
