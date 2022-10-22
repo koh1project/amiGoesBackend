@@ -2,7 +2,17 @@ import AmigosModel from '../models/amigos';
 
 const createProfile = async (req, res) => {
   try {
-    console.log(req.body);
+    const dob = new Date(req.body.birthday);
+    const month = dob.getMonth();
+    const day = dob.getDate();
+    const today = new Date();
+    let calculateAge = new Date().getFullYear() - new Date(dob).getFullYear();
+    if (
+      today.getMonth() < month ||
+      (today.getMonth() == month && today.getDate() < day)
+    ) {
+      calculateAge--;
+    }
     const {
       _id,
       name,
@@ -29,6 +39,7 @@ const createProfile = async (req, res) => {
       languages,
       gender,
       birthday,
+      age: calculateAge,
       bio,
       profilePicture,
       isVerified,
@@ -53,6 +64,28 @@ const getUserProfile = async (req, res) => {
   try {
     const profile = await AmigosModel.findById(req.params.userId);
     console.log(profile);
+    // update age if birthday has passed since last update
+    const dob = new Date(req.body.birthday);
+    const month = dob.getMonth();
+    const day = dob.getDate();
+    const today = new Date();
+    let calculateAge = new Date().getFullYear() - new Date(dob).getFullYear();
+    if (
+      today.getMonth() < month ||
+      (today.getMonth() == month && today.getDate() < day)
+    ) {
+      calculateAge--;
+    }
+    if (profile.age !== calculateAge) {
+      await AmigosModel.updateOne(
+        { _id: req.params.userId },
+        {
+          $set: {
+            age: calculateAge,
+          },
+        },
+      );
+    }
     res.status(200).json(profile);
   } catch (err) {
     res.status(500).json({ message: err.message });
