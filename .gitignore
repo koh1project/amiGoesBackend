@@ -105,3 +105,4 @@ dist
 
 # Firebase Admin SDK Service Account Key
 service-account.json
+*.http
