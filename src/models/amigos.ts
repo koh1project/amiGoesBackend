@@ -22,6 +22,7 @@ const AmigosSchema = new Schema({
     type: Date,
     required: true,
   },
+  age: { type: Number },
   bio: {
     type: String,
   },
@@ -62,10 +63,10 @@ const AmigosSchema = new Schema({
       type: Boolean,
     },
     currentLocation: {},
-    gender: {
-      type: String,
-      enum: ['male', 'female', 'other'],
+    locationDistance: {
+      type: Number,
     },
+    gender: [String],
     minAge: {
       type: Number,
     },
@@ -77,6 +78,12 @@ const AmigosSchema = new Schema({
     },
     toDate: {
       type: Date,
+    },
+    fromTime: {
+      type: Number,
+    },
+    toTime: {
+      type: Number,
     },
     activities: [String],
   },
