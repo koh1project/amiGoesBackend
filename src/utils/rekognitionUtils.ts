@@ -14,11 +14,11 @@ export const recognizeText = async (image) => {
   try {
     const data = await rekognitionClient.send(new DetectTextCommand(params));
     const textDetections = data.TextDetections;
-    let detectedText;
+    const detectedText = [];
     textDetections.forEach((text) => {
       if (text.Type === 'LINE') {
         console.log(text.DetectedText);
-        detectedText = text.DetectedText;
+        detectedText.push(text.DetectedText);
       }
     });
     return detectedText;
