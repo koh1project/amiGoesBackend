@@ -15,4 +15,3 @@ router.patch('/update/:userId', updateProfile);
 router.delete('/delete/:userId', deleteProfile);
 
 export { router as amigosRouter };
-
