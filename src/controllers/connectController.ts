@@ -101,8 +101,8 @@ const updateConnectPreferences = async (req, res) => {
 
 const getConnectedUsers = async (req, res) => {
   try {
-    const { userID } = req.body;
-    const connectedUsers = await Connections.find({ userID });
+    const { userID1 } = req.body;
+    const connectedUsers = await Connections.find({ userID1 });
     res.status(200).json({ connectedUsers });
   } catch (err) {
     res.status(500).json({ message: err.message });
