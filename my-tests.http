@@ -1,0 +1,29 @@
+get http://localhost:8080/compareFaces
+
+###
+POST http://localhost:8080/blocked
+content-type: application/json
+
+{
+  "userID": "62af5fb317f8d0a3e1fb7d5f",
+  "blockedUserID": "62af5fb317f8d0a3e1fb7d5f"
+}
+###
+GET http://localhost:8080/blocked
+content-type: application/json
+
+{
+  "userID": "DyGwmJ80JrSugovlv0x4R3ljQBp1"
+}
+
+###
+
+GET http://localhost:8080/connect
+content-type: application/json
+
+{
+  "userID1": "634b2e43e836c7c2e2ba94ee"
+}
+
+
+//DyGwmJ80JrSugovlv0x4R3ljQBp1
