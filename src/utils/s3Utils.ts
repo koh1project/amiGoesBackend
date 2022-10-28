@@ -8,10 +8,14 @@ import { uniqueString } from './utils';
  * @param data
  * @returns
  */
-export const uploadObject = async (data, fileName = '') => {
+export const uploadObject = async (
+  data,
+  fileName = '',
+  bucket = process.env.S3_BUCKET,
+) => {
   const name = fileName || uniqueString();
   const bucketParams = {
-    Bucket: process.env.S3_BUCKET,
+    Bucket: bucket,
     Key: name,
     Body: data,
   };

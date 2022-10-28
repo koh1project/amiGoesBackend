@@ -1,6 +1,8 @@
 import { Router } from 'express';
 import { compareFaces } from '../utils/rekognition';
+import { recognizeText } from '../utils/rekognitionUtils';
 import { getS3ObjectUrl, uploadObject } from '../utils/s3Utils';
+import { translateText } from '../utils/translateUtils';
 import { amigosRouter } from './amigosRoute';
 import { blockRouter } from './blockedRoute';
 import { connectRouter } from './connectRoute';
@@ -33,4 +35,27 @@ router.get('/compareFaces', async (req, res) => {
   res.send(data);
 });
 
+// Recognize text from image
+router.post('/recognize', async (req, res) => {
+  const data = await recognizeText(req.body.image);
+  res.send(data);
+});
+
+// Translate text
+router.post('/translate', async (req, res) => {
+  const data = await translateText(req.body.language, req.body.text);
+  res.send(data);
+});
+
+// Translate text from image
+router.post('/translateImage', async (req, res) => {
+  const data = await recognizeText(req.body.image);
+  const translatedResult = await translateText(
+    req.body.language,
+    data.toString(),
+  );
+  res.status(200).json({ translatedResult });
+});
+
 export { router };
+
