@@ -1,5 +1,5 @@
 import AmigosModel from '../models/amigos';
-import Connections from '../models/connections';
+import ConnectionsModel from '../models/connections';
 
 // function to calculate distance between two locations
 function getDistanceInKm(lat1, lon1, lat2, lon2) {
@@ -101,8 +101,14 @@ const updateConnectPreferences = async (req, res) => {
 
 const getConnectedUsers = async (req, res) => {
   try {
-    const { userID1 } = req.body;
-    const connectedUsers = await Connections.find({ userID1 });
+    const { userId } = req.body;
+    console.log(userId);
+    const connectedUsers = await ConnectionsModel.find({
+      $or: [{ userID1: userId }, { userID2: userId }],
+      isConnected: true,
+      isPending: false,
+    });
+
     res.status(200).json({ connectedUsers });
   } catch (err) {
     res.status(500).json({ message: err.message });

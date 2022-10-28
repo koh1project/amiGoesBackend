@@ -22,7 +22,7 @@ GET http://localhost:8080/connect
 content-type: application/json
 
 {
-  "userID1": "634b2e43e836c7c2e2ba94ee"
+  "userId": "DyGwmJ80JrSugovlv0x4R3ljQBp1"
 }
 
 
