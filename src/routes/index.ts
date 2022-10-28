@@ -52,7 +52,7 @@ router.post('/translateImage', async (req, res) => {
     req.body.language,
     data.toString(),
   );
-  res.send(translatedResult);
+  res.status(200).json({ translatedResult });
 });
 
 export { router };
