@@ -4,7 +4,8 @@ import { Client } from '@googlemaps/google-maps-services-js';
 const client = new Client({});
 
 //@NOTE: For development purposes
-let placesCache: any = null;
+let placesCache: object | null = null;
+const placeDetailCache = {};
 
 export const fetchPlacesByKeyword = async (
   req: Request<{ keyword?: string }>,
@@ -70,6 +71,36 @@ export const fetchPlacesByKeyword = async (
     placesCache = result;
 
     res.status(200).json(result);
+  } catch (error) {
+    console.log('error: ', error);
+    res.status(error['$metadata']).json(error);
+  }
+};
+
+export const fetchPlaceById = async (
+  req: Request<{ place_id?: string }>,
+  res: Response,
+) => {
+  const key = process.env.GOOGLE_MAPS_API_KEY ?? '';
+  try {
+    const place_id = req.params?.place_id?.toString() || '';
+
+    if (placeDetailCache[place_id]) {
+      console.log('Return cache');
+      return res.status(200).json(placeDetailCache[place_id]);
+    }
+
+    const response = await client.placeDetails({
+      params: {
+        place_id,
+        key,
+      },
+    });
+
+    const result = response.data.result;
+    placeDetailCache[place_id] = result;
+
+    res.status(200).json(response.data.result);
   } catch (error) {
     console.log('error: ', error);
     res.status(error['$metadata']).json(error);
