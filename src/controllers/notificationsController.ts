@@ -1,3 +1,4 @@
+import { Expo } from 'expo-server-sdk';
 import AmigosModel from '../models/amigos';
 
 const updateNotificationToken = async (req, res) => {
@@ -20,5 +21,47 @@ const updateNotificationToken = async (req, res) => {
   }
 };
 
-export { updateNotificationToken };
+const sendNotification = async (req, res) => {
+  const expo = new Expo();
+  try {
+    const { senderId } = req.params;
+    const { type, receiverId } = req.body;
+    const senderUserInfo = await AmigosModel.findOne({ _id: senderId });
+    const senderUserName = senderUserInfo.name;
+    const receiverUserInfo = await AmigosModel.findOne({ _id: receiverId });
+    const receiverNotificationsToken = receiverUserInfo.notificationsToken;
 
+    if (!Expo.isExpoPushToken(receiverNotificationsToken)) {
+      console.error(
+        `Push token ${receiverNotificationsToken} is not a valid Expo push token`,
+      );
+      return;
+    }
+    if (type === 'Connect Request') {
+      // const message = {
+      //   to: receiverNotificationsToken,
+      //   sound: 'default',
+      //   body: `${senderUserName} has sent you a connect request`,
+      // };
+      let ticket = {};
+      try {
+        ticket = await expo.sendPushNotificationsAsync([
+          {
+            to: receiverNotificationsToken,
+            sound: 'default',
+            body: `${senderUserName} has sent you a connect request`,
+          },
+        ]);
+        console.log(ticket);
+      } catch (err) {
+        console.error(err);
+      }
+    }
+
+    res.status(200).json({ message: 'Notification sent' });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
+export { updateNotificationToken, sendNotification };
