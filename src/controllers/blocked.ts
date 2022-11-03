@@ -1,18 +1,34 @@
 import Blocked from '../models/blocked';
+import ConnectionsModel from '../models/connections';
 
 // controller to block user
 const blockUser = async (req, res) => {
   try {
     const userId = req.params.userId;
     const blockedUserId = req.params.blockedUserId;
-    console.log(userId);
-    console.log(blockedUserId);
+    // console.log(userId);
+    // console.log(blockedUserId);
     const newBlocked = new Blocked({
       userID: userId,
       blockedUserID: blockedUserId,
     });
     await newBlocked.save();
-    res.status(200).json({ message: 'User blocked' });
+
+    const removeConnectedUser = await ConnectionsModel.updateMany(
+      {
+        $and: [
+          {
+            $or: [{ userID1: userId }, { userID2: userId }],
+          },
+          {
+            $or: [{ userID1: blockedUserId }, { userID2: blockedUserId }],
+          },
+        ],
+      },
+      { $set: { isConnected: false } },
+    );
+
+    res.status(200).json({ removeConnectedUser, message: 'User blocked' });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
