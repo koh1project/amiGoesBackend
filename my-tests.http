@@ -1,29 +1,29 @@
 get http://localhost:8080/compareFaces
 
 ###
-POST http://localhost:8080/blocked
-content-type: application/json
+POST http://localhost:8080/userId/DyGwmJ80JrSugovlv0x4R3ljQBp1/blockedUserId/9bgeb34hdbe08
+# content-type: application/json
 
-{
-  "userID": "DyGwmJ80JrSugovlv0x4R3ljQBp1",
-  "blockedUserID": "62af5fb317f8d0a3e1fb7d5f"
-}
+# {
+#   "userID": "DyGwmJ80JrSugovlv0x4R3ljQBp1",
+#   "blockedUserID": "62af5fb317f8d0a3e1fb7d5f"
+# }
 ###
-GET http://localhost:8080/blocked/blockedUsers/62af5fb317f8d0a3e1fb7d5f
-content-type: application/json
+GET http://localhost:8080/blocked/blockedUsers/DyGwmJ80JrSugovlv0x4R3ljQBp1
+# content-type: application/json
 
-{
-  "userID": "DyGwmJ80JrSugovlv0x4R3ljQBp1"
-}
+# {
+#   "userID": "DyGwmJ80JrSugovlv0x4R3ljQBp1"
+# }
 
 ###
 
 GET http://localhost:8080/connect/connectedUsers/DyGwmJ80JrSugovlv0x4R3ljQBp1
-content-type: application/json
+# content-type: application/json
 
-{
-  "userID": "DyGwmJ80JrSugovlv0x4R3ljQBp1"
-}
+# {
+#   "userID": "DyGwmJ80JrSugovlv0x4R3ljQBp1"
+# }
 
 
 ###

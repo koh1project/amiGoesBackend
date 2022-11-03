@@ -8,7 +8,7 @@ const Blocked = new Schema({
     ref: 'Amigos',
   },
   blockedUserID: {
-    type: Schema.Types.ObjectId,
+    type: String,
     required: true,
     ref: 'Amigos',
   },
