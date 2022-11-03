@@ -90,6 +90,9 @@ const AmigosSchema = new Schema({
   notificationsOn: {
     type: Boolean,
   },
+  notificationsToken: {
+    type: String,
+  },
   createdAt: {
     type: Date,
   },

@@ -3,12 +3,14 @@ import AmigosModel from '../models/amigos';
 const updateNotificationToken = async (req, res) => {
   try {
     const { userId } = req.params;
-    const { notificationToken } = req.body;
+    const { notificationsToken } = req.body;
+    console.log('userId: ', userId);
+    console.log('NotificationsToken: ', notificationsToken);
     await AmigosModel.updateOne(
       { _id: userId },
       {
         $set: {
-          notificationToken,
+          notificationsToken,
         },
       },
     );
@@ -19,3 +21,4 @@ const updateNotificationToken = async (req, res) => {
 };
 
 export { updateNotificationToken };
+
