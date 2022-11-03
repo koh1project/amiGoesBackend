@@ -1,5 +1,6 @@
 import Blocked from '../models/blocked';
 
+// controller fto block user
 const blockUser = async (req, res) => {
   try {
     console.log(req.body);
@@ -15,10 +16,12 @@ const blockUser = async (req, res) => {
   }
 };
 
+// controller for getting blocked users
 const getBlockedUsers = async (req, res) => {
   try {
-    const { userID } = req.body;
-    const blockedUsers = await Blocked.find({ userID });
+    const userId = req.params.userId;
+    console.log(userId);
+    const blockedUsers = await Blocked.find({ userId });
     res.status(200).json({ blockedUsers });
   } catch (err) {
     res.status(500).json({ message: err.message });

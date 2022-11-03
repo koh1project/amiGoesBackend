@@ -99,9 +99,10 @@ const updateConnectPreferences = async (req, res) => {
   }
 };
 
+// controller for getting connected users
 const getConnectedUsers = async (req, res) => {
   try {
-    const { userId } = req.body;
+    const userId = req.params.userId;
     console.log(userId);
     const connectedUsers = await ConnectionsModel.find({
       $or: [{ userID1: userId }, { userID2: userId }],
