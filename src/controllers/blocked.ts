@@ -1,6 +1,6 @@
 import Blocked from '../models/blocked';
 
-// controller fto block user
+// controller to block user
 const blockUser = async (req, res) => {
   try {
     console.log(req.body);
