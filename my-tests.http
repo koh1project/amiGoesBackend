@@ -1,7 +1,7 @@
 get http://localhost:8080/compareFaces
 
 ###
-POST http://localhost:8080/userId/DyGwmJ80JrSugovlv0x4R3ljQBp1/blockedUserId/9bgeb34hdbe08
+POST http://localhost:8080/blocked/userId/DyGwmJ80JrSugovlv0x4R3ljQBp1/blockedUserId/9bgeb34hdbe08
 # content-type: application/json
 
 # {
