@@ -2,31 +2,17 @@ get http://localhost:8080/compareFaces
 
 ###
 POST http://localhost:8080/blocked/userId/DyGwmJ80JrSugovlv0x4R3ljQBp1/blockedUserId/9bgeb34hdbe08
-# content-type: application/json
 
-# {
-#   "userID": "DyGwmJ80JrSugovlv0x4R3ljQBp1",
-#   "blockedUserID": "62af5fb317f8d0a3e1fb7d5f"
-# }
+
 ###
 GET http://localhost:8080/blocked/blockedUsers/DyGwmJ80JrSugovlv0x4R3ljQBp1
-# content-type: application/json
 
-# {
-#   "userID": "DyGwmJ80JrSugovlv0x4R3ljQBp1"
-# }
 
 ###
 
 GET http://localhost:8080/connect/connectedUsers/DyGwmJ80JrSugovlv0x4R3ljQBp1
-# content-type: application/json
 
-# {
-#   "userID": "DyGwmJ80JrSugovlv0x4R3ljQBp1"
-# }
 
 
 ###
 GET http://localhost:8080/connect/DyGwmJ80JrSugovlv0x4R3ljQBp1
-
-//DyGwmJ80JrSugovlv0x4R3ljQBp1
