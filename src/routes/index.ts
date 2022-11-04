@@ -8,6 +8,7 @@ import { blockRouter } from './blockedRoute';
 import { connectRouter } from './connectRoute';
 import { discoverRouter } from './discoverRoute';
 import { homeRouter } from './homeRoute';
+import { notificationsRouter } from './notificationsRoute';
 
 const router = Router();
 
@@ -16,6 +17,7 @@ router.use('/blocked', blockRouter);
 router.use('/amigos', amigosRouter);
 router.use('/connect', connectRouter);
 router.use('/discover', discoverRouter);
+router.use('/notifications', notificationsRouter);
 
 // Upload s3 api
 router.post('/s3', async (req, res) => {
