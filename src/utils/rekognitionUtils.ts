@@ -1,13 +1,13 @@
-import { DetectTextCommand } from '@aws-sdk/client-rekognition';
+import {
+  DetectTextCommand,
+  DetectTextCommandInput,
+} from '@aws-sdk/client-rekognition';
 import { rekognitionClient } from '../libs/rekognitionClient';
 
-export const recognizeText = async (image) => {
-  const params = {
+export const recognizeText = async (image: string) => {
+  const params: DetectTextCommandInput = {
     Image: {
-      S3Object: {
-        Bucket: process.env.S3_BUCKET,
-        Name: image,
-      },
+      Bytes: Buffer.from(image, 'base64'),
     },
   };
 
