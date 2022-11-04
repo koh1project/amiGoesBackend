@@ -3,12 +3,12 @@ import { MongooseID } from '../types/types';
 
 const Blocked = new Schema({
   userID: {
-    type: Schema.Types.ObjectId,
+    type: String,
     required: true,
     ref: 'Amigos',
   },
   blockedUserID: {
-    type: Schema.Types.ObjectId,
+    type: String,
     required: true,
     ref: 'Amigos',
   },

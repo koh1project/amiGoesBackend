@@ -7,12 +7,12 @@ const ConnectionsSchema = new Schema({
     required: true,
   },
   userID1: {
-    type: Schema.Types.ObjectId,
+    type: String,
     required: true,
     ref: 'Amigos',
   },
   userID2: {
-    type: Schema.Types.ObjectId,
+    type: String,
     required: true,
     ref: 'Amigos',
   },
