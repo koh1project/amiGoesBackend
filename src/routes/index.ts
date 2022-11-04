@@ -38,24 +38,21 @@ router.get('/compareFaces', async (req, res) => {
 // Recognize text from image
 router.post('/recognize', async (req, res) => {
   const data = await recognizeText(req.body.image);
-  res.send(data);
+  return res.send(data);
 });
 
 // Translate text
 router.post('/translate', async (req, res) => {
   const data = await translateText(req.body.language, req.body.text);
-  res.send(data);
+  return res.send(data);
 });
 
 // Translate text from image
 router.post('/translateImage', async (req, res) => {
   const data = await recognizeText(req.body.image);
-  const translatedResult = await translateText(
-    req.body.language,
-    data.toString(),
-  );
-  res.status(200).json({ translatedResult });
+  const text = data.toString();
+  const translatedResult = await translateText(req.body.language, text);
+  res.status(200).json({ text, translatedResult });
 });
 
 export { router };
-

@@ -109,3 +109,4 @@ service-account.json
 
 # For Mac user
 .DS_Store
+src/routes/.http
