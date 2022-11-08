@@ -21,11 +21,18 @@ const updateNotificationToken = async (req, res) => {
   }
 };
 
-const sendNotification = async (req, res) => {
+const sendNotification = async (
+  userId1: string,
+  userId2: string,
+  notificationType: string,
+) => {
   const expo = new Expo();
   try {
-    const { senderId } = req.params;
-    const { type, receiverId } = req.body;
+    // const { senderId } = req.params;
+    // const { type, receiverId } = req.body;
+    const senderId = userId1;
+    const receiverId = userId2;
+    const type = notificationType;
     const senderUserInfo = await AmigosModel.findOne({ _id: senderId });
     const senderUserName = senderUserInfo.name;
     const receiverUserInfo = await AmigosModel.findOne({ _id: receiverId });
@@ -38,11 +45,6 @@ const sendNotification = async (req, res) => {
       return;
     }
     if (type === 'Connect Request') {
-      // const message = {
-      //   to: receiverNotificationsToken,
-      //   sound: 'default',
-      //   body: `${senderUserName} has sent you a connect request`,
-      // };
       let ticket = {};
       try {
         ticket = await expo.sendPushNotificationsAsync([
@@ -52,16 +54,16 @@ const sendNotification = async (req, res) => {
             body: `${senderUserName} has sent you a connect request`,
           },
         ]);
-        console.log(ticket);
+
+        console.log('NotificationTicket: ', ticket);
       } catch (err) {
         console.error(err);
       }
     }
-
-    res.status(200).json({ message: 'Notification sent' });
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    console.error(err);
   }
 };
 
 export { updateNotificationToken, sendNotification };
+

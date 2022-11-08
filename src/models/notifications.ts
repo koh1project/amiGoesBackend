@@ -3,17 +3,17 @@ import { MongooseID } from '../types/types';
 
 const NotificationSchema = new Schema({
   sender: {
-    type: Schema.Types.ObjectId,
+    type: String,
     required: true,
     ref: 'Amigos',
   },
   receiver: {
-    type: Schema.Types.ObjectId,
+    type: String,
     required: true,
     ref: 'Amigos',
   },
   notificationType: {
-    type: Schema.Types.ObjectId,
+    type: String,
     required: true,
     ref: 'notificationType',
   },
