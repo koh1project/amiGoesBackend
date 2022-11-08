@@ -1,5 +1,6 @@
 import { Expo } from 'expo-server-sdk';
 import AmigosModel from '../models/amigos';
+import NotificationModel from '../models/notifications';
 
 const updateNotificationToken = async (req, res) => {
   try {
@@ -28,8 +29,6 @@ const sendNotification = async (
 ) => {
   const expo = new Expo();
   try {
-    // const { senderId } = req.params;
-    // const { type, receiverId } = req.body;
     const senderId = userId1;
     const receiverId = userId2;
     const type = notificationType;
@@ -54,7 +53,15 @@ const sendNotification = async (
             body: `${senderUserName} has sent you a connect request`,
           },
         ]);
-
+        const newNotification = new NotificationModel({
+          sender: senderId,
+          receiver: receiverId,
+          notificationType: type,
+          isRead: false,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        });
+        await newNotification.save();
         console.log('NotificationTicket: ', ticket);
       } catch (err) {
         console.error(err);
