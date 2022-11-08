@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import {
+  acceptConnectionRequest,
   connectFeed,
   getConnectedUsers,
   newConnectionRequest,
@@ -12,6 +13,7 @@ const router = Router();
 router.get('/:userId', connectFeed);
 router.post('/:userId', newConnectionRequest);
 router.patch('/updateConnectPreferences/:userId', updateConnectPreferences);
+router.patch('/acceptConnectionRequest/:userId', acceptConnectionRequest);
 router.get('/connectedUsers/:userId', getConnectedUsers);
 
 export { router as connectRouter };

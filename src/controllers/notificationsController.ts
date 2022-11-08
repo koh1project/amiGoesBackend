@@ -67,6 +67,30 @@ const sendNotification = async (
         console.error(err);
       }
     }
+    if (type === 'Connect Accepted') {
+      let ticket = {};
+      try {
+        ticket = await expo.sendPushNotificationsAsync([
+          {
+            to: receiverNotificationsToken,
+            sound: 'default',
+            body: `${senderUserName} accepted your connect request`,
+          },
+        ]);
+        const newNotification = new NotificationModel({
+          sender: senderId,
+          receiver: receiverId,
+          notificationType: type,
+          isRead: false,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        });
+        await newNotification.save();
+        console.log('NotificationTicket: ', ticket);
+      } catch (err) {
+        console.error(err);
+      }
+    }
   } catch (err) {
     console.error(err);
   }
