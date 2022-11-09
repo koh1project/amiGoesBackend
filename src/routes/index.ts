@@ -7,6 +7,7 @@ import { amigosRouter } from './amigosRoute';
 import { blockRouter } from './blockedRoute';
 import { connectRouter } from './connectRoute';
 import { discoverRouter } from './discoverRoute';
+import { goNowRouter } from './goNowRoute';
 import { homeRouter } from './homeRoute';
 import { notificationsRouter } from './notificationsRoute';
 
@@ -18,6 +19,7 @@ router.use('/amigos', amigosRouter);
 router.use('/connect', connectRouter);
 router.use('/discover', discoverRouter);
 router.use('/notifications', notificationsRouter);
+router.use('/goNow', goNowRouter);
 
 // Upload s3 api
 router.post('/s3', async (req, res) => {
@@ -58,3 +60,4 @@ router.post('/translateImage', async (req, res) => {
 });
 
 export { router };
+

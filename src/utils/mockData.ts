@@ -30,7 +30,8 @@ export const seedUser = async () => {
     const user: TAmigos = {
       _id: id,
       name: faker.name.firstName(),
-      birthday: faker.date.past(1, new Date('1995/06/16')),
+      birthday: faker.date.past(1, new Date('1980/06/16')),
+      age: faker.datatype.number({ min: 18, max: 70 }),
       bio: faker.lorem.paragraph(),
       connectPreferences: {
         activities: faker.helpers.uniqueArray(faker.word.adjective, 5),
@@ -38,8 +39,11 @@ export const seedUser = async () => {
           latitude: faker.address.latitude(),
           longitude: faker.address.longitude(),
         },
+        locationDistance: faker.datatype.number({ min: 10, max: 1000 }),
         fromDate: faker.date.recent(),
         toDate: faker.date.soon(),
+        fromTime: faker.datatype.number({ min: 800, max: 900 }),
+        toTime: faker.datatype.number({ min: 1700, max: 2200 }),
         gender: faker.helpers.arrayElements(['male', 'female', 'other']),
         isInvisible: faker.datatype.boolean(),
         maxAge: faker.datatype.number({

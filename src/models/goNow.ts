@@ -2,8 +2,8 @@ import { InferSchemaType, model, Schema } from 'mongoose';
 import { MongooseID } from '../types/types';
 
 const GoNowPairSchema = new Schema({
-  userID: {
-    type: Schema.Types.ObjectId,
+  userId: {
+    type: String,
     required: true,
     ref: 'UserProfile',
   },
@@ -11,7 +11,10 @@ const GoNowPairSchema = new Schema({
   goTo: {
     type: String,
   },
-  possiblePairs: [],
+  possiblePairs: [{}],
+  active: {
+    type: Boolean,
+  },
   createdAt: {
     type: Date,
   },
