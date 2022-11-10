@@ -44,24 +44,27 @@ const newGoNowPair = async (req, res) => {
       }
     }
     //console.log(distanceFilter);
-
-    const goNowPair = new GoNowPairModel({
-      userId: currentUserId,
-      location: liveLocation,
-      goTo: req.body.goTo,
-      possiblePairs: distanceFilter,
-      active: true,
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    });
-    await goNowPair.save();
-    console.log('Go Now Document saved in DB: ', goNowPair);
-    sendGoNowRequestNotification(
-      currentUserId,
-      possiblePairsIds,
-      'goNowRequest',
-    );
-    res.status(200).json({ message: 'Go Now Pair created' });
+    if (distanceFilter.length === 0) {
+      res.status(200).json({ message: 'No possible pairs were found' });
+    } else {
+      const goNowPair = new GoNowPairModel({
+        userId: currentUserId,
+        location: liveLocation,
+        goTo: req.body.goTo,
+        possiblePairs: distanceFilter,
+        active: true,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      });
+      await goNowPair.save();
+      console.log('Go Now Document saved in DB: ', goNowPair);
+      sendGoNowRequestNotification(
+        currentUserId,
+        possiblePairsIds,
+        'goNowRequest',
+      );
+      res.status(200).json({ message: 'Go Now Pair created' });
+    }
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
