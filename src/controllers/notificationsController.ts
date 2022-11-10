@@ -32,6 +32,23 @@ const getNotifications = async (req, res) => {
   }
 };
 
+const markNotificationAsRead = async (req, res) => {
+  try {
+    const { notificationId } = req.params;
+    await NotificationModel.updateOne(
+      { _id: notificationId },
+      {
+        $set: {
+          isRead: true,
+        },
+      },
+    );
+    res.status(200).json({ message: 'Notification marked as read' });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
 const sendNotification = async (
   userId1: string,
   userId2: string,
@@ -192,6 +209,7 @@ const sendGoNowRequestNotification = async (
 export {
   updateNotificationToken,
   getNotifications,
+  markNotificationAsRead,
   sendNotification,
   sendGoNowRequestNotification,
 };
