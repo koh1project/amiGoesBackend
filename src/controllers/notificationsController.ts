@@ -22,6 +22,16 @@ const updateNotificationToken = async (req, res) => {
   }
 };
 
+const getNotifications = async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const notifications = await NotificationModel.find({ receiver: userId });
+    res.status(200).json({ notifications });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
 const sendNotification = async (
   userId1: string,
   userId2: string,
@@ -181,6 +191,7 @@ const sendGoNowRequestNotification = async (
 
 export {
   updateNotificationToken,
+  getNotifications,
   sendNotification,
   sendGoNowRequestNotification,
 };
