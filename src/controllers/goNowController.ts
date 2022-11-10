@@ -1,7 +1,10 @@
 import AmigosModel from '../models/amigos';
 import GoNowPairModel from '../models/goNow';
 import { getDistanceInKm } from '../utils/getDistanceInKm';
-import { sendGoNowRequestNotification } from './notificationsController';
+import {
+  sendGoNowRequestNotification,
+  sendNotification,
+} from './notificationsController';
 
 const newGoNowPair = async (req, res) => {
   try {
@@ -63,7 +66,7 @@ const newGoNowPair = async (req, res) => {
         possiblePairsIds,
         'goNowRequest',
       );
-      res.status(200).json({ message: 'Go Now Pair created' });
+      res.status(200).json({ message: 'Go Now Pair created', goNowPair });
     }
   } catch (err) {
     res.status(500).json({ message: err.message });
@@ -78,22 +81,43 @@ const acceptGoNowPair = async (req, res) => {
     const goNowUserId = goNowPair.userId; // The user who created the Go Now Pair request
     console.log('goNowUserId: ', goNowUserId);
     const possiblePairs = goNowPair.possiblePairs;
-    for (let i = 0; i < possiblePairs.length; i++) {
-      if (possiblePairs[i].pairUserId.toString() === currentUserId) {
-        possiblePairs[i].accepted = true;
+    if (goNowPair.active === false) {
+      res.status(200).json({ message: 'Go Now Pair is no longer active' });
+    } else {
+      // Go Now Pair is still active
+      for (let i = 0; i < possiblePairs.length; i++) {
+        if (possiblePairs[i].pairUserId.toString() === currentUserId) {
+          possiblePairs[i].accepted = true;
+        }
       }
+      await GoNowPairModel.findByIdAndUpdate(goNowPairId, {
+        possiblePairs,
+        updatedAt: new Date(),
+      });
+      console.log('Go Now Pair updated in DB');
+      sendNotification(currentUserId, goNowUserId, 'goNowAccepted');
+      res.status(200).json({ message: 'Go Now Pair accepted', goNowPair });
     }
-    await GoNowPairModel.findByIdAndUpdate(goNowPairId, {
-      possiblePairs,
-      updatedAt: new Date(),
-    });
-    console.log('Go Now Pair updated in DB');
-    res.status(200).json({ message: 'Go Now Pair accepted' });
   } catch (err) {
     console.log(err);
     res.status(500).json({ message: err.message });
   }
 };
 
-export { newGoNowPair, acceptGoNowPair };
+const deactivateGoNowPair = async (req, res) => {
+  try {
+    const goNowPairId = req.body.goNowPairId;
+    await GoNowPairModel.findByIdAndUpdate(goNowPairId, {
+      active: false,
+      updatedAt: new Date(),
+    });
+    console.log('Go Now Pair deactivated in DB');
+    res.status(200).json({ message: 'Go Now Pair deactivated' });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ message: err.message });
+  }
+};
+
+export { newGoNowPair, acceptGoNowPair, deactivateGoNowPair };
 
