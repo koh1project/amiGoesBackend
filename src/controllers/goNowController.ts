@@ -70,5 +70,30 @@ const newGoNowPair = async (req, res) => {
   }
 };
 
-export { newGoNowPair };
+const acceptGoNowPair = async (req, res) => {
+  try {
+    const currentUserId = req.params.userId;
+    const goNowPairId = req.body.goNowPairId;
+    const goNowPair = await GoNowPairModel.findById(goNowPairId);
+    const goNowUserId = goNowPair.userId; // The user who created the Go Now Pair request
+    console.log('goNowUserId: ', goNowUserId);
+    const possiblePairs = goNowPair.possiblePairs;
+    for (let i = 0; i < possiblePairs.length; i++) {
+      if (possiblePairs[i].pairUserId.toString() === currentUserId) {
+        possiblePairs[i].accepted = true;
+      }
+    }
+    await GoNowPairModel.findByIdAndUpdate(goNowPairId, {
+      possiblePairs,
+      updatedAt: new Date(),
+    });
+    console.log('Go Now Pair updated in DB');
+    res.status(200).json({ message: 'Go Now Pair accepted' });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ message: err.message });
+  }
+};
+
+export { newGoNowPair, acceptGoNowPair };
 
