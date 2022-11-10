@@ -1,7 +1,7 @@
 import AmigosModel from '../models/amigos';
-import { getDistanceInKm } from '../utils/getDistanceInKm';
-//import { sendNotification } from './notificationsController';
 import GoNowPairModel from '../models/goNow';
+import { getDistanceInKm } from '../utils/getDistanceInKm';
+import { sendGoNowRequestNotification } from './notificationsController';
 
 const newGoNowPair = async (req, res) => {
   try {
@@ -20,6 +20,7 @@ const newGoNowPair = async (req, res) => {
       },
       'connectPreferences.isInvisible': false,
     });
+    const possiblePairsIds = [];
     const distanceFilter = [];
     for (let i = 0; i < possiblePairs.length; i++) {
       const latitude1 = liveLocation.latitude;
@@ -39,9 +40,10 @@ const newGoNowPair = async (req, res) => {
           pairUserId: possiblePairs[i]._id,
           accepted: false,
         });
+        possiblePairsIds.push(possiblePairs[i]._id);
       }
     }
-    console.log(distanceFilter);
+    //console.log(distanceFilter);
 
     const goNowPair = new GoNowPairModel({
       userId: currentUserId,
@@ -53,7 +55,12 @@ const newGoNowPair = async (req, res) => {
       updatedAt: new Date(),
     });
     await goNowPair.save();
-    console.log(goNowPair);
+    console.log('Go Now Document saved in DB: ', goNowPair);
+    sendGoNowRequestNotification(
+      currentUserId,
+      possiblePairsIds,
+      'goNowRequest',
+    );
     res.status(200).json({ message: 'Go Now Pair created' });
   } catch (err) {
     res.status(500).json({ message: err.message });
@@ -61,3 +68,4 @@ const newGoNowPair = async (req, res) => {
 };
 
 export { newGoNowPair };
+

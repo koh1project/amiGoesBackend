@@ -97,7 +97,7 @@ const newConnectionRequest = async (req, res) => {
       updatedAt: new Date(),
     });
     await connection.save();
-    sendNotification(userId1, userId2, 'Connect Request');
+    sendNotification(userId1, userId2, 'ConnectRequest');
     res.status(200).json({ message: 'Connection Request Sent' });
   } catch (err) {
     res.status(500).json({ message: err.message });
@@ -120,7 +120,7 @@ const acceptConnectionRequest = async (req, res) => {
         },
       },
     );
-    sendNotification(userId1, userId2, 'Connect Accepted');
+    sendNotification(userId1, userId2, 'ConnectAccepted');
     res.status(200).json({ message: 'Connection Request Accepted' });
   } catch (err) {
     res.status(500).json({ message: err.message });
