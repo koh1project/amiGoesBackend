@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import {
-  sendNotification,
+  getNotifications,
+  markNotificationAsRead,
   updateNotificationToken,
 } from '../controllers/notificationsController';
 
@@ -8,7 +9,8 @@ const router = Router();
 
 // authMiddleware will be added later
 router.patch('/addNotificationToken/:userId', updateNotificationToken);
-router.post('/sendNotification/:senderId', sendNotification);
+router.get('/getNotifications/:userId', getNotifications);
+router.patch('/markNotificationAsRead/:notificationId', markNotificationAsRead);
 
 export { router as notificationsRouter };
 

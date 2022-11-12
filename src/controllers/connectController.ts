@@ -1,33 +1,17 @@
 import AmigosModel from '../models/amigos';
 import ConnectionsModel from '../models/connections';
-
-// function to calculate distance between two locations
-function getDistanceInKm(lat1, lon1, lat2, lon2) {
-  const R = 6371; // Radius of the earth in km
-  const dLat = deg2rad(lat2 - lat1); // deg2rad below
-  const dLon = deg2rad(lon2 - lon1);
-  const a =
-    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-    Math.cos(deg2rad(lat1)) *
-      Math.cos(deg2rad(lat2)) *
-      Math.sin(dLon / 2) *
-      Math.sin(dLon / 2);
-  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-  const distanceInKm = R * c; // Distance in km
-  return distanceInKm;
-}
-
-function deg2rad(deg) {
-  return deg * (Math.PI / 180);
-}
+import { getDistanceInKm } from '../utils/getDistanceInKm';
+import { sendNotification } from './notificationsController';
 
 // controller for getting users based on connect preferences
 const connectFeed = async (req, res) => {
   try {
     const currentUserInfo = await AmigosModel.findById(req.params.userId);
 
+    //console.log(currentUserInfo);
+
     const feedResult = await AmigosModel.find({
-      _id: { $ne: req.params.userId },
+      _id: { $ne: currentUserInfo._id },
       languages: { $in: currentUserInfo.languages },
       gender: { $in: currentUserInfo.connectPreferences.gender },
       age: {
@@ -51,7 +35,6 @@ const connectFeed = async (req, res) => {
         $gte: currentUserInfo.connectPreferences.fromTime,
       },
     });
-    //console.log(feedResult.length);
     const distanceFilter = [];
     for (let i = 0; i < feedResult.length; i++) {
       const latitude1 =
@@ -99,6 +82,51 @@ const updateConnectPreferences = async (req, res) => {
   }
 };
 
+// controller for new connection request
+const newConnectionRequest = async (req, res) => {
+  try {
+    const userId1 = req.params.userId;
+    const userId2 = req.body.targetUserId;
+    //console.log(`userId1: ${userId1} ... userId2: ${userId2}`);
+    const connection = new ConnectionsModel({
+      userID1: userId1,
+      userID2: userId2,
+      isConnected: false,
+      isPending: true,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    });
+    await connection.save();
+    sendNotification(userId1, userId2, 'ConnectRequest');
+    res.status(200).json({ message: 'Connection Request Sent' });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
+// controller for accepting connection request
+const acceptConnectionRequest = async (req, res) => {
+  try {
+    const userId1 = req.params.userId;
+    const userId2 = req.body.targetUserId;
+    console.log(`userId1: ${userId1} ... userId2: ${userId2}`);
+    await ConnectionsModel.updateOne(
+      { userID1: userId2, userID2: userId1 },
+      {
+        $set: {
+          isConnected: true,
+          isPending: false,
+          updatedAt: new Date(),
+        },
+      },
+    );
+    sendNotification(userId1, userId2, 'ConnectAccepted');
+    res.status(200).json({ message: 'Connection Request Accepted' });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
 // controller for getting connected users
 const getConnectedUsers = async (req, res) => {
   try {
@@ -116,4 +144,11 @@ const getConnectedUsers = async (req, res) => {
   }
 };
 
-export { connectFeed, updateConnectPreferences, getConnectedUsers };
+export {
+  connectFeed,
+  updateConnectPreferences,
+  getConnectedUsers,
+  newConnectionRequest,
+  acceptConnectionRequest,
+};
+
