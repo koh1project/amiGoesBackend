@@ -153,7 +153,7 @@ const deleteProfile = async (req, res) => {
   }
 };
 
-// view user profile
+// view not connected user profile
 const viewUserProfile = async (req, res) => {
   try {
     const currentUserId = req.params.userId;
@@ -165,6 +165,7 @@ const viewUserProfile = async (req, res) => {
         { $or: [{ userID1: targetUserId }, { userID2: targetUserId }] },
       ],
     });
+
     const data = {
       userId: targetUser._id,
       name: targetUser.name,
@@ -175,8 +176,31 @@ const viewUserProfile = async (req, res) => {
       bio: targetUser.bio,
       hobbies: targetUser.hobbies,
     };
+
     if (connection.length === 1) {
-      res.status(200).json({ message: 'connection is pending', data });
+      if (
+        connection[0].isConnected === false &&
+        connection[0].isPending === true
+      ) {
+        res.status(200).json({ message: 'connection is pending', data });
+      }
+      if (connection[0].isConnected === true) {
+        const connectedAmigoData = {
+          userId: targetUser._id,
+          name: targetUser.name,
+          homeCountry: targetUser.homeCountry,
+          languages: targetUser.languages,
+          gender: targetUser.gender,
+          age: targetUser.age,
+          bio: targetUser.bio,
+          profilePicture: targetUser.profilePicture,
+          hobbies: targetUser.hobbies,
+          contact: targetUser.contact,
+          emergencyContact: targetUser.emergencyContact,
+          connectedOn: connection[0].updatedAt,
+        };
+        res.status(200).json(connectedAmigoData);
+      }
     } else {
       res.status(200).json({ message: 'No connection request', data });
     }
