@@ -1,4 +1,5 @@
 import AmigosModel from '../models/amigos';
+import ConnectionsModel from '../models/connections';
 
 const createProfile = async (req, res) => {
   try {
@@ -154,7 +155,23 @@ const deleteProfile = async (req, res) => {
 
 // view user profile
 const viewUserProfile = async (req, res) => {
-  res.status(200).json({ message: 'View user profile' });
+  try {
+    const currentUserId = req.params.userId;
+    const targetUserId = req.body.targetUserId;
+    const connection = await ConnectionsModel.find({
+      $and: [
+        { $or: [{ userID1: currentUserId }, { userID2: currentUserId }] },
+        { $or: [{ userID1: targetUserId }, { userID2: targetUserId }] },
+      ],
+    });
+    if (connection.length > 0) {
+      res.status(200).json({ message: 'Connection exists', connection });
+    } else {
+      res.status(200).json({ message: 'No connection exists' });
+    }
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
 };
 
 export {
