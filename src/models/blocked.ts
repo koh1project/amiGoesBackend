@@ -1,24 +1,30 @@
 import { InferSchemaType, model, Schema } from 'mongoose';
 import { MongooseID } from '../types/types';
 
-const Blocked = new Schema({
-  userID: {
-    type: String,
-    required: true,
-    ref: 'Amigos',
+const Blocked = new Schema(
+  {
+    userID: {
+      type: String,
+      required: true,
+      ref: 'Amigos',
+    },
+    blockedUserID: {
+      type: String,
+      required: true,
+      ref: 'Amigos',
+    },
+    createdAt: {
+      type: Date,
+    },
+    updatedAt: {
+      type: Date,
+    },
   },
-  blockedUserID: {
-    type: String,
-    required: true,
-    ref: 'Amigos',
+  {
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true },
   },
-  createdAt: {
-    type: Date,
-  },
-  updatedAt: {
-    type: Date,
-  },
-});
+);
 
 type Blocked = MongooseID & InferSchemaType<typeof Blocked>;
 

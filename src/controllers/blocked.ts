@@ -39,7 +39,9 @@ const getBlockedUsers = async (req, res) => {
   try {
     const userId = req.params.userId;
     console.log(userId);
-    const blockedUsers = await Blocked.find({ userID: userId });
+    const blockedUsers = await Blocked.find({ userID: userId }).populate([
+      'blockedUserID',
+    ]);
     res.status(200).json({ blockedUsers });
   } catch (err) {
     res.status(500).json({ message: err.message });

@@ -131,12 +131,11 @@ const acceptConnectionRequest = async (req, res) => {
 const getConnectedUsers = async (req, res) => {
   try {
     const userId = req.params.userId;
-    console.log(userId);
     const connectedUsers = await ConnectionsModel.find({
       $or: [{ userID1: userId }, { userID2: userId }],
       isConnected: true,
       isPending: false,
-    });
+    }).populate(['userID1', 'userID2']);
 
     res.status(200).json({ connectedUsers });
   } catch (err) {
@@ -151,4 +150,3 @@ export {
   newConnectionRequest,
   acceptConnectionRequest,
 };
-
