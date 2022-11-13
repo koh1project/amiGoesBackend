@@ -158,16 +158,27 @@ const viewUserProfile = async (req, res) => {
   try {
     const currentUserId = req.params.userId;
     const targetUserId = req.body.targetUserId;
+    const targetUser = await AmigosModel.findById(targetUserId);
     const connection = await ConnectionsModel.find({
       $and: [
         { $or: [{ userID1: currentUserId }, { userID2: currentUserId }] },
         { $or: [{ userID1: targetUserId }, { userID2: targetUserId }] },
       ],
     });
-    if (connection.length > 0) {
-      res.status(200).json({ message: 'Connection exists', connection });
+    const data = {
+      userId: targetUser._id,
+      name: targetUser.name,
+      homeCountry: targetUser.homeCountry,
+      languages: targetUser.languages,
+      gender: targetUser.gender,
+      age: targetUser.age,
+      bio: targetUser.bio,
+      hobbies: targetUser.hobbies,
+    };
+    if (connection.length === 1) {
+      res.status(200).json({ message: 'connection is pending', data });
     } else {
-      res.status(200).json({ message: 'No connection exists' });
+      res.status(200).json({ message: 'No connection request', data });
     }
   } catch (err) {
     res.status(500).json({ message: err.message });
