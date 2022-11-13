@@ -152,5 +152,16 @@ const deleteProfile = async (req, res) => {
   }
 };
 
-export { createProfile, getUserProfile, updateProfile, deleteProfile };
+// view user profile
+const viewUserProfile = async (req, res) => {
+  res.status(200).json({ message: 'View user profile' });
+};
+
+export {
+  createProfile,
+  getUserProfile,
+  updateProfile,
+  deleteProfile,
+  viewUserProfile,
+};
 
