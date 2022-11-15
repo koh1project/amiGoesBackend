@@ -35,7 +35,7 @@ router.get('/s3', async (req, res) => {
 // Only allow seed if mode is Development
 
 router.post('/compareFaces', async (req, res) => {
-  const data = await compareFaces(req.body.source, req.body.target);
+  const data = await compareFaces(req.body.imageID, req.body.imageSelfie);
   res.send(data);
 });
 
@@ -60,4 +60,3 @@ router.post('/translateImage', async (req, res) => {
 });
 
 export { router };
-
