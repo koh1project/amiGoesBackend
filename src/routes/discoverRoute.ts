@@ -1,11 +1,16 @@
 import { Router } from 'express';
-import { fetchPlacesByKeyword } from '../controllers/discover';
+import {
+  fetchInitialPlaces,
+  fetchPlacesByKeyword,
+} from '../controllers/discover';
 import { fetchPlaceById } from './../controllers/discover';
 
 const router = Router();
 
-router.get('/', fetchPlacesByKeyword);
+router.get('/', fetchInitialPlaces);
 
 router.get('/:place_id', fetchPlaceById);
+
+router.get('/keyword/:keyword', fetchPlacesByKeyword);
 
 export { router as discoverRouter };

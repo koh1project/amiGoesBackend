@@ -6,8 +6,9 @@ const client = new Client({});
 //@NOTE: For development purposes
 let placesCache: object | null = null;
 const placeDetailCache = {};
+const keywordCache = {};
 
-export const fetchPlacesByKeyword = async (
+export const fetchInitialPlaces = async (
   req: Request<{ keyword?: string }>,
   res: Response,
 ) => {
@@ -18,8 +19,6 @@ export const fetchPlacesByKeyword = async (
       res.status(200).json(placesCache);
       return;
     }
-
-    // const keyword: string = req.query?.keyword?.toString() || 'park vancouver';
 
     const parksParams = {
       params: {
@@ -101,6 +100,35 @@ export const fetchPlaceById = async (
     placeDetailCache[place_id] = result;
 
     res.status(200).json(response.data.result);
+  } catch (error) {
+    console.log('error: ', error);
+    res.status(error['$metadata']).json(error);
+  }
+};
+
+export const fetchPlacesByKeyword = async (
+  req: Request<{ keyword?: string }>,
+  res: Response,
+) => {
+  const key = process.env.GOOGLE_MAPS_API_KEY ?? '';
+  try {
+    const keyword = req.params?.keyword?.toString() || '';
+
+    if (keywordCache[keyword]) {
+      console.log('Return cache');
+      return res.status(200).json(keywordCache[keyword]);
+    }
+    const response = await client.textSearch({
+      params: {
+        query: keyword,
+        key,
+      },
+    });
+
+    const results = response.data.results;
+    keywordCache[keyword] = results;
+
+    res.status(200).json(results);
   } catch (error) {
     console.log('error: ', error);
     res.status(error['$metadata']).json(error);
