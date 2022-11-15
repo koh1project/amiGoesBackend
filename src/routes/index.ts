@@ -34,8 +34,8 @@ router.get('/s3', async (req, res) => {
 });
 // Only allow seed if mode is Development
 
-router.get('/compareFaces', async (req, res) => {
-  const data = await compareFaces();
+router.post('/compareFaces', async (req, res) => {
+  const data = await compareFaces(req.body.source, req.body.target);
   res.send(data);
 });
 
