@@ -36,7 +36,7 @@ router.get('/s3', async (req, res) => {
 
 router.post('/compareFaces', async (req, res) => {
   const data = await compareFaces(req.body.imageID, req.body.imageSelfie);
-  res.send(data);
+  res.status(200).json({ data });
 });
 
 // Recognize text from image
@@ -60,3 +60,4 @@ router.post('/translateImage', async (req, res) => {
 });
 
 export { router };
+

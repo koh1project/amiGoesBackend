@@ -1,35 +1,11 @@
 import {
   CompareFacesCommand,
+  DetectFacesCommand,
   RekognitionClient,
 } from '@aws-sdk/client-rekognition';
 import { REGION } from '../libs/s3Client';
 
-// const photo_source = 'Image.jpg';
-// const photo_target = 'IMG-3692.jpg';
 const client = new RekognitionClient({ region: REGION });
-
-// // function to encode file data to base64 encoded string
-// function base64_encode(file) {
-//   const bitmap = fs.readFileSync(file);
-//   return new Buffer(bitmap).toString('base64');
-// }
-// const base64str = base64_encode(__dirname + '/Arvind2.jpg');
-// // console.log(base64str);
-
-// const myBuffer = Buffer.from(base64str, 'base64');
-
-// const params = (image1, image2) => ({
-//   SourceImage: {
-//     S3Object: {
-//       Bucket: process.env.S3_BUCKET,
-//       Name: image1,
-//     },
-//   },
-//   TargetImage: {
-//     Bytes: image2,
-//   },
-//   SimilarityThreshold: 70,
-// });
 
 export const compareFaces = async (SourceImage, TargetImage) => {
   // console.log(params);
@@ -44,44 +20,56 @@ export const compareFaces = async (SourceImage, TargetImage) => {
     },
     SimilarityThreshold: 70,
   };
-  // const params = {
-  //   SourceImage: {
-  //     S3Object: {
-  //       Bucket: process.env.S3_BUCKET,
-  //       Name: 'Image.jpg',
-  //     },
-  //   },
-  //   TargetImage: {
-  //     S3Object: {
-  //       Bucket: process.env.S3_BUCKET,
-  //       Name: 'IMG-3692.jpg',
-  //     },
-  //   },
-  //   SimilarityThreshold: 70,
-  // };
-  const command = new CompareFacesCommand(params);
-  let similarPercent = 0;
 
-  client.send(command).then(
-    (data) => {
-      data.FaceMatches.forEach((data) => {
-        const position = data.Face.BoundingBox;
-        const similarity = data.Similarity;
-        similarPercent = similarity;
-        console.log(
-          `The face at: ${position.Left}, ${position.Top} matches with ${similarity}% confidence`,
-        );
+  const face1 = new DetectFacesCommand({
+    Image: {
+      Bytes: buffer1,
+    },
+  });
+
+  const face2 = new DetectFacesCommand({
+    Image: {
+      Bytes: buffer2,
+    },
+  });
+
+  try {
+    const face1Data = await client.send(face1);
+    const face2Data = await client.send(face2);
+
+    if (
+      face1Data.FaceDetails.length === 0 ||
+      face2Data.FaceDetails.length === 0
+    ) {
+      return {
+        success: false,
+        message: 'No face detected',
+        code: 0,
+      };
+    } else {
+      const command = new CompareFacesCommand(params);
+
+      let similarPercent = 0;
+
+      const compare = await client.send(command);
+      compare.FaceMatches.forEach((data) => {
+        similarPercent = data.Similarity;
       });
-
-      if (similarPercent > 90) {
-        console.log('Verification successful');
+      if (similarPercent > 70) {
+        return {
+          success: true,
+          message: 'Face Matched',
+          code: 1,
+        };
       } else {
-        console.log('Verification not successful');
+        return {
+          success: false,
+          message: 'Face not matched',
+          code: 0,
+        };
       }
-    },
-    (err) => {
-      console.log('Error', err);
-    },
-  );
-  console.log('Done');
+    }
+  } catch (err) {
+    console.log('Error', err);
+  }
 };
