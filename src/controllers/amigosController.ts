@@ -64,7 +64,7 @@ const createProfile = async (req, res) => {
 const getUserProfile = async (req, res) => {
   try {
     const profile = await AmigosModel.findById(req.params.userId);
-    console.log(profile);
+    //console.log(profile);
     // update age if birthday has passed since last update
     const dob = new Date(profile.birthday);
     const month = dob.getMonth();
@@ -88,7 +88,10 @@ const getUserProfile = async (req, res) => {
         },
       );
     }
-    res.status(200).json(profile);
+    const profileData = profile.toJSON();
+    console.log(profileData);
+    res.status(200).json(profileData);
+    //res.status(200).json(profile);
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
@@ -103,17 +106,10 @@ const updateProfile = async (req, res) => {
       homeCountry,
       languages,
       gender,
-      birthday,
       bio,
       profilePicture,
-      isVerified,
       hobbies,
-      favorites,
       contact,
-      emergencyContact,
-      notificationsOn,
-      createdAt,
-      updatedAt,
     } = req.body;
     await AmigosModel.updateOne(
       { _id: uid },
@@ -123,17 +119,11 @@ const updateProfile = async (req, res) => {
           homeCountry,
           languages,
           gender,
-          birthday,
           bio,
           profilePicture,
-          isVerified,
           hobbies,
-          favorites,
           contact,
-          emergencyContact,
-          notificationsOn,
-          createdAt,
-          updatedAt,
+          updatedAt: new Date(),
         },
       },
     );
