@@ -78,6 +78,9 @@ const sendNotification = async (
             to: receiverNotificationsToken,
             sound: 'default',
             body: `${senderUserName} has sent you a connect request`,
+            data: {
+              userId: senderUserInfo._id,
+            },
           },
         ]);
         const newNotification = new NotificationModel({
@@ -213,4 +216,3 @@ export {
   sendNotification,
   sendGoNowRequestNotification,
 };
-

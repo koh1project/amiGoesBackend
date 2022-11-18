@@ -72,7 +72,7 @@ const connectFeed = async (req, res) => {
 
 export const getPendingRequest = async (req, res) => {
   const pendingRequest = await ConnectionsModel.find({
-    userID1: req.params.userId,
+    userID2: req.params.userId,
     isConnected: false,
     isPending: true,
   }).populate(['userID1', 'userID2']);
