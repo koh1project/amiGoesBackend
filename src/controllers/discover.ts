@@ -1,4 +1,5 @@
 import { Request, Response } from 'express';
+import AmigosModel from '../models/amigos';
 
 import { Client } from '@googlemaps/google-maps-services-js';
 const client = new Client({});
@@ -132,5 +133,45 @@ export const fetchPlacesByKeyword = async (
   } catch (error) {
     console.log('error: ', error);
     res.status(error['$metadata']).json(error);
+  }
+};
+
+export const fetchFavorites = async (req: Request, res: Response) => {
+  try {
+    const { userId } = req.body;
+
+    const { favorites } = await AmigosModel.findById(userId, 'favorites');
+
+    if (!favorites) {
+      return res.status(200).json([]);
+    }
+
+    return res.status(200).json(favorites);
+  } catch (error) {
+    console.log('error: ', error);
+    // res.status(error['$metadata']).json(error);
+    res.status(400).json([]);
+  }
+};
+
+export const updateFavorites = async (req: Request, res: Response) => {
+  try {
+    const { userId, place_id } = req.body;
+
+    const amigos = await AmigosModel.findById(userId, 'favorites');
+    const favorites = amigos?.favorites || [];
+
+    const newFavorites = favorites.includes(place_id)
+      ? favorites.filter((favorite) => favorite !== place_id)
+      : [...favorites, place_id];
+
+    const newAmigos = await AmigosModel.findByIdAndUpdate(userId, {
+      favorites: newFavorites,
+    });
+
+    return res.status(200).json(newAmigos);
+  } catch (error) {
+    console.log('error: ', error);
+    res.status(400).json([]);
   }
 };
