@@ -1,4 +1,5 @@
 import AmigosModel from '../models/amigos';
+import ConnectionsModel from '../models/connections';
 
 const createProfile = async (req, res) => {
   try {
@@ -152,5 +153,67 @@ const deleteProfile = async (req, res) => {
   }
 };
 
-export { createProfile, getUserProfile, updateProfile, deleteProfile };
+// view not connected user profile
+const viewUserProfile = async (req, res) => {
+  try {
+    const currentUserId = req.params.userId;
+    const targetUserId = req.body.targetUserId;
+    const targetUser = await AmigosModel.findById(targetUserId);
+    const connection = await ConnectionsModel.find({
+      $and: [
+        { $or: [{ userID1: currentUserId }, { userID2: currentUserId }] },
+        { $or: [{ userID1: targetUserId }, { userID2: targetUserId }] },
+      ],
+    });
+
+    const data = {
+      userId: targetUser._id,
+      name: targetUser.name,
+      homeCountry: targetUser.homeCountry,
+      languages: targetUser.languages,
+      gender: targetUser.gender,
+      age: targetUser.age,
+      bio: targetUser.bio,
+      hobbies: targetUser.hobbies,
+    };
+
+    if (connection.length === 1) {
+      if (
+        connection[0].isConnected === false &&
+        connection[0].isPending === true
+      ) {
+        res.status(200).json({ message: 'connection is pending', data });
+      }
+      if (connection[0].isConnected === true) {
+        const connectedAmigoData = {
+          userId: targetUser._id,
+          name: targetUser.name,
+          homeCountry: targetUser.homeCountry,
+          languages: targetUser.languages,
+          gender: targetUser.gender,
+          age: targetUser.age,
+          bio: targetUser.bio,
+          profilePicture: targetUser.profilePicture,
+          hobbies: targetUser.hobbies,
+          contact: targetUser.contact,
+          emergencyContact: targetUser.emergencyContact,
+          connectedOn: connection[0].updatedAt,
+        };
+        res.status(200).json(connectedAmigoData);
+      }
+    } else {
+      res.status(200).json({ message: 'No connection request', data });
+    }
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
+export {
+  createProfile,
+  getUserProfile,
+  updateProfile,
+  deleteProfile,
+  viewUserProfile,
+};
 

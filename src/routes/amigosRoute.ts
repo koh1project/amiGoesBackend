@@ -4,6 +4,7 @@ import {
   deleteProfile,
   getUserProfile,
   updateProfile,
+  viewUserProfile,
 } from '../controllers/amigosController';
 
 const router = Router();
@@ -13,5 +14,7 @@ router.get('/:userId', getUserProfile);
 router.post('/create', createProfile);
 router.patch('/update/:userId', updateProfile);
 router.delete('/delete/:userId', deleteProfile);
+router.get('/view-profile/:userId', viewUserProfile);
 
 export { router as amigosRouter };
+
