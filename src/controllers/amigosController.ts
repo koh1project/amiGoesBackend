@@ -66,7 +66,7 @@ const getUserProfile = async (req, res) => {
     const profile = await AmigosModel.findById(req.params.userId);
     console.log(profile);
     // update age if birthday has passed since last update
-    const dob = new Date(req.body.birthday);
+    const dob = new Date(profile.birthday);
     const month = dob.getMonth();
     const day = dob.getDate();
     const today = new Date();
@@ -77,6 +77,7 @@ const getUserProfile = async (req, res) => {
     ) {
       calculateAge--;
     }
+
     if (profile.age !== calculateAge) {
       await AmigosModel.updateOne(
         { _id: req.params.userId },
@@ -216,4 +217,3 @@ export {
   deleteProfile,
   viewUserProfile,
 };
-
