@@ -34,9 +34,9 @@ router.get('/s3', async (req, res) => {
 });
 // Only allow seed if mode is Development
 
-router.get('/compareFaces', async (req, res) => {
-  const data = await compareFaces();
-  res.send(data);
+router.post('/compareFaces', async (req, res) => {
+  const data = await compareFaces(req.body.imageID, req.body.imageSelfie);
+  res.status(200).json({ data });
 });
 
 // Recognize text from image
