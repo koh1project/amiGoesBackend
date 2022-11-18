@@ -22,3 +22,7 @@ GET http://localhost:8080/connect/DyGwmJ80JrSugovlv0x4R3ljQBp1
 
 ###
 POST http://localhost:8080/blocked/userId/DyGwmJ80JrSugovlv0x4R3ljQBp1/unBlockedUserId/f4bi3hjgc6ife
+
+###
+GET http://localhost:8080/connect/requests/IFqwb2IpHxPn0y6IQIERvVjlGGL2
+
