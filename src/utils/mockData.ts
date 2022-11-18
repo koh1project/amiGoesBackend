@@ -44,7 +44,7 @@ export const seedUser = async () => {
         toDate: faker.date.soon(),
         fromTime: faker.datatype.number({ min: 800, max: 900 }),
         toTime: faker.datatype.number({ min: 1700, max: 2200 }),
-        gender: faker.helpers.arrayElements(['male', 'female', 'other']),
+        gender: faker.helpers.arrayElements(['Male', 'Female', 'Other']),
         isInvisible: faker.datatype.boolean(),
         maxAge: faker.datatype.number({
           min: 40,

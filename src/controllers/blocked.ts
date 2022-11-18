@@ -34,16 +34,50 @@ const blockUser = async (req, res) => {
   }
 };
 
+// controller to unblock user
+const unBlockUser = async (req, res) => {
+  try {
+    const userId = req.params.userId;
+    const unBlockedUserId = req.params.unBlockedUserId;
+    // console.log(userId);
+    // console.log(unBlockedUserId);
+    await Blocked.deleteOne({
+      blockedUserID: unBlockedUserId,
+      userID: userId,
+    });
+
+    const addConnectedUser = await ConnectionsModel.updateMany(
+      {
+        $and: [
+          {
+            $or: [{ userID1: userId }, { userID2: userId }],
+          },
+          {
+            $or: [{ userID1: unBlockedUserId }, { userID2: unBlockedUserId }],
+          },
+        ],
+      },
+      { $set: { isConnected: true } },
+    );
+
+    res.status(200).json({ addConnectedUser, message: 'User unblocked' });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
 // controller for getting blocked users
 const getBlockedUsers = async (req, res) => {
   try {
     const userId = req.params.userId;
     console.log(userId);
-    const blockedUsers = await Blocked.find({ userID: userId });
+    const blockedUsers = await Blocked.find({ userID: userId }).populate([
+      'blockedUserID',
+    ]);
     res.status(200).json({ blockedUsers });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
 };
 
-export { blockUser, getBlockedUsers };
+export { blockUser, getBlockedUsers, unBlockUser };

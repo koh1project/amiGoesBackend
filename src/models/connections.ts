@@ -1,32 +1,38 @@
 import { InferSchemaType, model, Schema } from 'mongoose';
 import { MongooseID } from '../types/types';
 
-const ConnectionsSchema = new Schema({
-  userID1: {
-    type: String,
-    required: true,
-    ref: 'Amigos',
+const ConnectionsSchema = new Schema(
+  {
+    userID1: {
+      type: String,
+      required: true,
+      ref: 'Amigos',
+    },
+    userID2: {
+      type: String,
+      required: true,
+      ref: 'Amigos',
+    },
+    isConnected: {
+      type: Boolean,
+      required: true,
+    },
+    isPending: {
+      type: Boolean,
+      required: true,
+    },
+    createdAt: {
+      type: Date,
+    },
+    updatedAt: {
+      type: Date,
+    },
   },
-  userID2: {
-    type: String,
-    required: true,
-    ref: 'Amigos',
+  {
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true },
   },
-  isConnected: {
-    type: Boolean,
-    required: true,
-  },
-  isPending: {
-    type: Boolean,
-    required: true,
-  },
-  createdAt: {
-    type: Date,
-  },
-  updatedAt: {
-    type: Date,
-  },
-});
+);
 
 export type TConnections = MongooseID &
   InferSchemaType<typeof ConnectionsSchema>;
