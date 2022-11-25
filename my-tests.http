@@ -32,3 +32,7 @@ POST  http://localhost:8080/amigos/location/123
 content-type: application/json
 
 {"location":{"coords":{"altitude":0,"altitudeAccuracy":-1,"latitude":49.246292,"accuracy":5,"longitude":-123.116226,"heading":-1,"speed":-1},"timestamp":1669366816479.116},"distance":5}
+
+###
+GET http://localhost:8080/connect/requests/IFqwb2IpHxPn0y6IQIERvVjlGGL2
+

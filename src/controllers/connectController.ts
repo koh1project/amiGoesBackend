@@ -8,8 +8,14 @@ const connectFeed = async (req, res) => {
   try {
     const currentUserInfo = await AmigosModel.findById(req.params.userId);
 
-    //console.log(currentUserInfo);
+    if (!currentUserInfo) {
+      return res
+        .status(404)
+        .json({ Error: `User with id ${req.params.userId} not found` });
+    }
 
+    const amigoes = await AmigosModel.find({});
+    return res.json(amigoes);
     const feedResult = await AmigosModel.find({
       _id: { $ne: currentUserInfo._id },
       languages: { $in: currentUserInfo.languages },
@@ -59,8 +65,18 @@ const connectFeed = async (req, res) => {
     console.log(distanceFilter);
     res.status(200).json(distanceFilter);
   } catch (err) {
+    console.log(err.message);
     res.status(500).json({ message: err.message });
   }
+};
+
+export const getPendingRequest = async (req, res) => {
+  const pendingRequest = await ConnectionsModel.find({
+    userID2: req.params.userId,
+    isConnected: false,
+    isPending: true,
+  }).populate(['userID1', 'userID2']);
+  res.json(pendingRequest);
 };
 
 // controller for updating connect preferences

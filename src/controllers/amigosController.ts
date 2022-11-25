@@ -79,6 +79,7 @@ const getUserProfile = async (req, res) => {
     ) {
       calculateAge--;
     }
+
     if (profile.age !== calculateAge) {
       await AmigosModel.updateOne(
         { _id: req.params.userId },
