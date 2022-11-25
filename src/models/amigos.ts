@@ -1,105 +1,119 @@
 import { InferSchemaType, model, Schema } from 'mongoose';
 
-const AmigosSchema = new Schema({
-  _id: {
-    type: String,
-  },
-  name: {
-    type: String,
-    required: true,
-  },
-  homeCountry: {
-    type: String,
-    required: true,
-  },
-  languages: [String],
-  gender: {
-    type: String,
-    enum: ['male', 'female', 'other'],
-    required: true,
-  },
-  birthday: {
-    type: Date,
-    required: true,
-  },
-  age: { type: Number },
-  bio: {
-    type: String,
-  },
-  profilePicture: {
-    type: String,
-  },
-  isVerified: {
-    type: Boolean,
-    required: true,
-  },
-  hobbies: {
-    type: [String],
-  },
-  favorites: {
-    type: [String],
-  },
-  contact: {
-    phoneNumber: {
+const AmigosSchema = new Schema(
+  {
+    _id: {
       type: String,
     },
-    email: {
-      type: String,
-    },
-  },
-  emergencyContact: {
     name: {
       type: String,
+      required: true,
     },
-    phoneNumber: {
-      type: Number,
+    homeCountry: {
+      type: String,
+      required: true,
     },
-    relationship: {
+    languages: [String],
+    gender: {
+      type: String,
+      enum: ['Male', 'Female', 'Other'],
+      required: true,
+    },
+    birthday: {
+      type: Date,
+      required: true,
+    },
+    age: { type: Number },
+    bio: {
       type: String,
     },
-  },
-  connectPreferences: {
-    isInvisible: {
+    profilePicture: {
+      type: String,
+    },
+    isVerified: {
+      type: Boolean,
+      required: true,
+    },
+    hobbies: {
+      type: [String],
+    },
+    favorites: {
+      type: [String],
+    },
+    contact: {
+      phoneNumber: {
+        type: String,
+      },
+      email: {
+        type: String,
+      },
+    },
+    emergencyContact: {
+      name: {
+        type: String,
+      },
+      phoneNumber: {
+        type: Number,
+      },
+      relationship: {
+        type: String,
+      },
+    },
+    connectPreferences: {
+      isInvisible: {
+        type: Boolean,
+      },
+      currentLocation: {},
+      locationDistance: {
+        type: Number,
+      },
+      gender: [String],
+      minAge: {
+        type: Number,
+      },
+      maxAge: {
+        type: Number,
+      },
+      fromDate: {
+        type: Date,
+      },
+      toDate: {
+        type: Date,
+      },
+      fromTime: {
+        type: Number,
+      },
+      toTime: {
+        type: Number,
+      },
+      activities: [String],
+    },
+    notificationsOn: {
       type: Boolean,
     },
-    currentLocation: {},
-    locationDistance: {
-      type: Number,
+    notificationsToken: {
+      type: String,
     },
-    gender: [String],
-    minAge: {
-      type: Number,
-    },
-    maxAge: {
-      type: Number,
-    },
-    fromDate: {
+    createdAt: {
       type: Date,
     },
-    toDate: {
+    updatedAt: {
       type: Date,
     },
-    fromTime: {
-      type: Number,
+  },
+  {
+    virtuals: {
+      profilePictureLink: {
+        get() {
+          return `https://capstoneamigoes.s3.us-west-2.amazonaws.com/${this.profilePicture}`;
+        },
+      },
     },
-    toTime: {
-      type: Number,
+    toJSON: {
+      virtuals: true,
     },
-    activities: [String],
   },
-  notificationsOn: {
-    type: Boolean,
-  },
-  notificationsToken: {
-    type: String,
-  },
-  createdAt: {
-    type: Date,
-  },
-  updatedAt: {
-    type: Date,
-  },
-});
+);
 
 export type TAmigos = InferSchemaType<typeof AmigosSchema>;
 

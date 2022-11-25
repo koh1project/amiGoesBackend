@@ -22,3 +22,13 @@ GET http://localhost:8080/connect/DyGwmJ80JrSugovlv0x4R3ljQBp1
 
 ###
 POST http://localhost:8080/blocked/userId/DyGwmJ80JrSugovlv0x4R3ljQBp1/unBlockedUserId/f4bi3hjgc6ife
+
+
+###
+GET http://localhost:8080/seed
+
+###
+POST  http://localhost:8080/amigos/location/123
+content-type: application/json
+
+{"location":{"coords":{"altitude":0,"altitudeAccuracy":-1,"latitude":49.246292,"accuracy":5,"longitude":-123.116226,"heading":-1,"speed":-1},"timestamp":1669366816479.116},"distance":5}

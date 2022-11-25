@@ -4,10 +4,9 @@
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": true,
     "source.addMissingImports": true,
-    "source.organizeImports": true,
-    "source.autoFixOnSave": true
+    "source.organizeImports": true
   },
-  "editor.formatOnSaveMode": "modifications",
+  "editor.formatOnSaveMode": "file",
   "editor.minimap.maxColumn": 80,
   "javascript.preferences.quoteStyle": "single",
   "typescript.preferences.quoteStyle": "single",
@@ -21,5 +20,5 @@
   "[json]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
-  "cSpell.words": ["linebreak"]
+  "cSpell.words": ["linebreak", "virtuals"]
 }
