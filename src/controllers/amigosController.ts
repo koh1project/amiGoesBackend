@@ -1,5 +1,7 @@
+import { Request, Response } from 'express';
 import AmigosModel from '../models/amigos';
 import ConnectionsModel from '../models/connections';
+import { getDistanceInKm } from '../utils/getDistanceInKm';
 
 const createProfile = async (req, res) => {
   try {
@@ -200,10 +202,56 @@ const viewUserProfile = async (req, res) => {
   }
 };
 
+const updateUserLocation = async (req: Request, res: Response) => {
+  const amigoUser = await AmigosModel.findById(req.params.userId);
+  if (amigoUser) {
+    const location = req.body.location;
+    amigoUser.connectPreferences.currentLocation = {
+      lat: location.coords.latitude,
+      lon: location.coords.longitude,
+    };
+    await amigoUser.save();
+    res.json({ status: 'ok' });
+  }
+};
+
+const getAmigosFromLocation = async (req: Request, res: Response) => {
+  const amigoUsers = await AmigosModel.find({
+    _id: { $ne: req.params.userId },
+  });
+  const { location, distance } = req.body;
+  if (!location) return res.json([]);
+  const filteredAmigoes = amigoUsers.filter((amigo) => {
+    const { latitude, longitude } = amigo.connectPreferences.currentLocation;
+    // eslint-disable-next-line no-empty
+    if (latitude && longitude) {
+      const userDistance = getDistanceInKm(
+        latitude,
+        longitude,
+        location.coords.latitude,
+        location.coords.longitude,
+      );
+      console.log({ latitude, longitude, userDistance });
+      if (userDistance <= distance) return true;
+    }
+    return false;
+  });
+
+  res.json(
+    filteredAmigoes.filter((amigo) => {
+      return (
+        amigo.connectPreferences.currentLocation?.latitude &&
+        amigo.connectPreferences.currentLocation?.longitude
+      );
+    }),
+  );
+};
 export {
   createProfile,
   getUserProfile,
   updateProfile,
   deleteProfile,
   viewUserProfile,
+  updateUserLocation,
+  getAmigosFromLocation,
 };

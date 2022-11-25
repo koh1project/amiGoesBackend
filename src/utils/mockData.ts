@@ -7,17 +7,32 @@ import { TGenderValues } from '../types/types';
 function generateRandomString() {
   return Math.random().toString(20).substr(2, 20);
 }
+const malePhotos = [
+  'male-1.jpg',
+  'male-2.jpg',
+  'male-3.jpg',
+  'male-4.jpg',
+  'male-5.jpg',
+];
+const femalePhotos = [
+  'female-1.jpg',
+  'female-2.jpg',
+  'female-3.jpg',
+  'female-4.jpg',
+];
 
 export const seed = async () => {
+  await removeAllData();
   const users = await seedUser();
-  const connections = await seedConnections(users);
+  // const connections = await seedConnections(users);
   AmigosModel.insertMany(users);
-  ConnectionsModel.insertMany(connections);
-  return { users, connections };
+  // ConnectionsModel.insertMany(connections);
+  return { users };
 };
+
 export const removeAllData = async () => {
-  AmigosModel.remove({});
-  ConnectionsModel.remove({});
+  await AmigosModel.deleteMany({});
+  await ConnectionsModel.deleteMany({});
 };
 
 export const seedUser = async () => {
@@ -26,25 +41,36 @@ export const seedUser = async () => {
     //const id = new Types.ObjectId();
 
     const id = generateRandomString();
+    const gender = faker.name.sex() === 'male' ? 'Male' : 'Female';
 
     const user: TAmigos = {
       _id: id,
-      name: faker.name.firstName(),
+      name: faker.name.fullName({
+        sex: gender.toLowerCase() as 'male' | 'female',
+      }),
       birthday: faker.date.past(1, new Date('1980/06/16')),
       age: faker.datatype.number({ min: 18, max: 70 }),
       bio: faker.lorem.paragraph(),
       connectPreferences: {
         activities: faker.helpers.uniqueArray(faker.word.adjective, 5),
         currentLocation: {
-          latitude: faker.address.latitude(),
-          longitude: faker.address.longitude(),
+          latitude:
+            49.246292 +
+            Math.random() *
+              faker.helpers.arrayElement([0.01, 0.001, 0.05]) *
+              faker.helpers.arrayElement([1, -1]),
+          longitude:
+            -123.116226 +
+            Math.random() *
+              faker.helpers.arrayElement([0.01, 0.001, 0.05]) *
+              faker.helpers.arrayElement([1, -1]),
         },
         locationDistance: faker.datatype.number({ min: 10, max: 1000 }),
         fromDate: faker.date.recent(),
         toDate: faker.date.soon(),
         fromTime: faker.datatype.number({ min: 800, max: 900 }),
         toTime: faker.datatype.number({ min: 1700, max: 2200 }),
-        gender: faker.helpers.arrayElements(['Male', 'Female', 'Other']),
+        gender: [faker.name.sex().toLowerCase() as TGenderValues],
         isInvisible: faker.datatype.boolean(),
         maxAge: faker.datatype.number({
           min: 40,
@@ -55,7 +81,7 @@ export const seedUser = async () => {
           max: 80,
         }),
       },
-      gender: faker.name.sex() as TGenderValues,
+      gender: gender,
       contact: {
         email: faker.internet.email(),
         phoneNumber: faker.phone.number(),
@@ -64,12 +90,19 @@ export const seedUser = async () => {
         ['English', 'Spanish', 'Portuguese'],
         1,
       ),
-      hobbies: faker.helpers.uniqueArray(['Reading', 'Writing', 'Sleeping'], 1),
+      hobbies: faker.helpers.uniqueArray(
+        ['Reading', 'Writing', 'Hiking', 'Skiing'],
+        1,
+      ),
       favorites: faker.helpers
         .uniqueArray(users, 1)
         .map((user) => user?._id.toString()),
       homeCountry: faker.helpers.arrayElement(['Brazil', 'Japan', 'Mexico']),
       isVerified: faker.datatype.boolean(),
+      profilePicture:
+        gender === 'Male'
+          ? faker.helpers.arrayElement(malePhotos)
+          : faker.helpers.arrayElement(femalePhotos),
     };
     users.push(user);
   }
