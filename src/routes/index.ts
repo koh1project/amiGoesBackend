@@ -1,3 +1,5 @@
+/* eslint-disable prettier/prettier */
+// eslint-disable-next-line prettier/prettier
 import { Promise } from 'bluebird';
 import { Router } from 'express';
 import { checkAuth } from '../middleware/checkAuth';
