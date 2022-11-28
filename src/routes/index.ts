@@ -1,5 +1,6 @@
 import { Promise } from 'bluebird';
 import { Router } from 'express';
+import { checkAuth } from '../middleware/checkAuth';
 import { compareFaces } from '../utils/rekognition';
 import { recognizeText } from '../utils/rekognitionUtils';
 import { getS3ObjectUrl, uploadObject } from '../utils/s3Utils';
@@ -15,12 +16,12 @@ import { notificationsRouter } from './notificationsRoute';
 const router = Router();
 
 router.use('/home', homeRouter);
-router.use('/blocked', blockRouter);
-router.use('/amigos', amigosRouter);
-router.use('/connect', connectRouter);
-router.use('/discover', discoverRouter);
-router.use('/notifications', notificationsRouter);
-router.use('/goNow', goNowRouter);
+router.use('/blocked', checkAuth, blockRouter);
+router.use('/amigos', checkAuth, amigosRouter);
+router.use('/connect', checkAuth, connectRouter);
+router.use('/discover', checkAuth, discoverRouter);
+router.use('/notifications', checkAuth, notificationsRouter);
+router.use('/goNow', checkAuth, goNowRouter);
 
 // Upload s3 api
 router.post('/s3', async (req, res) => {
