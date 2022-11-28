@@ -44,7 +44,7 @@ export const compareFaces = async (SourceImage, TargetImage) => {
       return {
         success: false,
         message: 'No face detected',
-        code: 0,
+        code: 2,
       };
     } else {
       const command = new CompareFacesCommand(params);

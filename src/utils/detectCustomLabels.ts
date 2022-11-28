@@ -7,7 +7,7 @@ import { REGION } from '../libs/s3Client';
 const client = new RekognitionClient({ region: REGION });
 
 export const detectCustomLabels = async (image) => {
-  console.log('backend');
+  console.log('called');
   const buffer = Buffer.from(image, 'base64');
   console.log(buffer);
   const params = {
@@ -23,8 +23,9 @@ export const detectCustomLabels = async (image) => {
 
   try {
     const data = await client.send(command);
-    console.log(data);
+
     return data;
+    console.log(data);
   } catch (err) {
     console.log('Error', err);
   }
