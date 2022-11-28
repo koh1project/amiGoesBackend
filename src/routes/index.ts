@@ -1,3 +1,4 @@
+import { Promise } from 'bluebird';
 import { Router } from 'express';
 import { compareFaces } from '../utils/rekognition';
 import { recognizeText } from '../utils/rekognitionUtils';
@@ -54,10 +55,13 @@ router.post('/translate', async (req, res) => {
 // Translate text from image
 router.post('/translateImage', async (req, res) => {
   const data = await recognizeText(req.body.image);
-  const text = data.toString();
-  const translatedResult = await translateText(req.body.language, text);
+  const text = data;
+  const translatedResult = await Promise.map(text, async (item) => {
+    return await translateText(req.body.language, item);
+  });
+
+  console.log(translatedResult);
   res.status(200).json({ text, translatedResult });
 });
 
 export { router };
-

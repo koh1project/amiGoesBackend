@@ -10,7 +10,6 @@ export const translateText = async (language, text) => {
 
   try {
     const data = await translateClient.send(new TranslateTextCommand(params));
-    console.log('Success', data.TranslatedText);
     return data.TranslatedText;
   } catch (err) {
     console.log('Error', err);
