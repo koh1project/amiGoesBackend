@@ -1,6 +1,9 @@
+/* eslint-disable prettier/prettier */
+// eslint-disable-next-line prettier/prettier
 import { Promise } from 'bluebird';
 import { Router } from 'express';
 import { checkAuth } from '../middleware/checkAuth';
+import { detectCustomLabels } from '../utils/detectCustomLabels';
 import { compareFaces } from '../utils/rekognition';
 import { recognizeText } from '../utils/rekognitionUtils';
 import { getS3ObjectUrl, uploadObject } from '../utils/s3Utils';
@@ -63,6 +66,12 @@ router.post('/translateImage', async (req, res) => {
 
   console.log(translatedResult);
   res.status(200).json({ text, translatedResult });
+});
+
+// Detect custom labels
+router.post('/verifyId', async (req, res) => {
+  const data = await detectCustomLabels(req.body.imageID);
+  res.status(200).json({ data });
 });
 
 export { router };
