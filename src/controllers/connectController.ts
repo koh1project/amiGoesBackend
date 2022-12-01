@@ -104,16 +104,23 @@ const newConnectionRequest = async (req, res) => {
     const userId1 = req.params.userId;
     const userId2 = req.body.targetUserId;
     //console.log(`userId1: ${userId1} ... userId2: ${userId2}`);
-    const connection = new ConnectionsModel({
+
+    const connectionRequest = await ConnectionsModel.find({
       userID1: userId1,
       userID2: userId2,
-      isConnected: false,
-      isPending: true,
-      createdAt: new Date(),
-      updatedAt: new Date(),
     });
-    await connection.save();
-    sendNotification(userId1, userId2, 'ConnectRequest');
+    if (!connectionRequest.length) {
+      const connection = new ConnectionsModel({
+        userID1: userId1,
+        userID2: userId2,
+        isConnected: false,
+        isPending: true,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      });
+      await connection.save();
+      sendNotification(userId1, userId2, 'ConnectRequest');
+    }
     res.status(200).json({ message: 'Connection Request Sent' });
   } catch (err) {
     res.status(500).json({ message: err.message });
@@ -125,18 +132,17 @@ const acceptConnectionRequest = async (req, res) => {
   try {
     const userId1 = req.params.userId;
     const userId2 = req.body.targetUserId;
-    console.log(`userId1: ${userId1} ... userId2: ${userId2}`);
-    await ConnectionsModel.updateOne(
-      { userID1: userId2, userID2: userId1 },
-      {
-        $set: {
-          isConnected: true,
-          isPending: false,
-          updatedAt: new Date(),
-        },
-      },
-    );
-    sendNotification(userId1, userId2, 'ConnectAccepted');
+
+    const connectionModel = await ConnectionsModel.findOne({
+      userID1: userId2,
+      userID2: userId1,
+    });
+    if (connectionModel) {
+      connectionModel.isConnected = true;
+      connectionModel.isPending = false;
+      await connectionModel.save();
+      sendNotification(userId1, userId2, 'ConnectAccepted');
+    }
     res.status(200).json({ message: 'Connection Request Accepted' });
   } catch (err) {
     res.status(500).json({ message: err.message });

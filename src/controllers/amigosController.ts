@@ -231,7 +231,6 @@ const getAmigosFromLocation = async (req: Request, res: Response) => {
         location.coords.latitude,
         location.coords.longitude,
       );
-      console.log({ latitude, longitude, userDistance });
       if (userDistance <= distance) return true;
     }
     return false;
