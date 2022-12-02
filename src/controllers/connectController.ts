@@ -14,7 +14,16 @@ const connectFeed = async (req, res) => {
         .json({ Error: `User with id ${req.params.userId} not found` });
     }
 
-    const amigoes = await AmigosModel.find({});
+    const amigoes = await AmigosModel.find({
+      _id: { $ne: currentUserInfo._id },
+      'connectPreferences.activities': {
+        $in: currentUserInfo.connectPreferences.activities,
+      },
+      age: {
+        $gte: currentUserInfo.connectPreferences.minAge,
+        $lte: currentUserInfo.connectPreferences.maxAge,
+      },
+    });
     return res.json(amigoes);
     const feedResult = await AmigosModel.find({
       _id: { $ne: currentUserInfo._id },
@@ -84,6 +93,7 @@ const updateConnectPreferences = async (req, res) => {
   try {
     const uid = req.params.userId;
     const { connectPreferences } = req.body;
+
     await AmigosModel.updateOne(
       { _id: uid },
       {

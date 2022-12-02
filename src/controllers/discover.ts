@@ -23,28 +23,28 @@ export const fetchInitialPlaces = async (
 
     const parksParams = {
       params: {
-        query: 'parks vancouver',
+        query: 'parks vancouver,bc',
         key,
       },
     };
 
     const restaurantsParams = {
       params: {
-        query: 'restaurants vancouver',
+        query: 'restaurants vancouver,bc',
         key,
       },
     };
 
     const entertainmentParams = {
       params: {
-        query: 'entertainment vancouver',
+        query: 'entertainment vancouver,bc',
         key,
       },
     };
 
     const sportsParams = {
       params: {
-        query: 'sports vancouver',
+        query: 'sports vancouver,bc',
         key,
       },
     };

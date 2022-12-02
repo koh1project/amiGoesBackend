@@ -206,9 +206,11 @@ const updateUserLocation = async (req: Request, res: Response) => {
   const amigoUser = await AmigosModel.findById(req.params.userId);
   if (amigoUser) {
     const location = req.body.location;
+    console.log('Updating User Location');
+    console.log({ location });
     amigoUser.connectPreferences.currentLocation = {
-      lat: location.coords.latitude,
-      lon: location.coords.longitude,
+      latitude: location.coords.latitude,
+      longitude: location.coords.longitude,
     };
     await amigoUser.save();
     res.json({ status: 'ok' });
@@ -222,8 +224,8 @@ const getAmigosFromLocation = async (req: Request, res: Response) => {
   const { location, distance } = req.body;
   if (!location) return res.json([]);
   const filteredAmigoes = amigoUsers.filter((amigo) => {
-    const { latitude, longitude } = amigo.connectPreferences.currentLocation;
-    // eslint-disable-next-line no-empty
+    const latitude = amigo.connectPreferences.currentLocation?.latitude;
+    const longitude = amigo.connectPreferences.currentLocation?.longitude;
     if (latitude && longitude) {
       const userDistance = getDistanceInKm(
         latitude,
@@ -236,14 +238,7 @@ const getAmigosFromLocation = async (req: Request, res: Response) => {
     return false;
   });
 
-  res.json(
-    filteredAmigoes.filter((amigo) => {
-      return (
-        amigo.connectPreferences.currentLocation?.latitude &&
-        amigo.connectPreferences.currentLocation?.longitude
-      );
-    }),
-  );
+  res.json(filteredAmigoes);
 };
 export {
   createProfile,
